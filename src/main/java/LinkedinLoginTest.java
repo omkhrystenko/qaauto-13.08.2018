@@ -42,8 +42,8 @@ public class LinkedinLoginTest {
 
         Assert.assertTrue(signInButton.isDisplayed(), "sign in button is not displayed on login page");
 
-        userEmailField.sendKeys("");
-        userPasswordField.sendKeys("");
+        userEmailField.sendKeys("autotestqa2018@gmail.com");
+        userPasswordField.sendKeys("trust2018");
         signInButton.click();
 
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.linkedin.com/feed/", "Home page URL is wrong");
@@ -90,8 +90,6 @@ public class LinkedinLoginTest {
 
         driver.quit();
     }
-
-
 }
 
 
