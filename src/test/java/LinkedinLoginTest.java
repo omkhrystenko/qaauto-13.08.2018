@@ -5,8 +5,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.BeforeGroups;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -15,6 +14,27 @@ import static java.lang.Thread.sleep;
 
 public class LinkedinLoginTest {
 
+    WebDriver driver;
+    WebDriverWait wait;
+    String mainURL;
+
+    @BeforeClass
+    public void setSystemProps(){
+        System.setProperty("webdriver.chrome.driver", "D:\\WebDrivers\\chromedriver.exe");
+    }
+
+    @BeforeMethod
+    public void beforeMethod(){
+        driver = new ChromeDriver();
+        mainURL = "https://www.linkedin.com/";
+        driver.get(mainURL);
+        wait = new WebDriverWait(driver, 10);
+    }
+
+    @AfterMethod
+    public void afterMethod(){
+        driver.quit();
+    }
 
 
 
@@ -28,27 +48,18 @@ public class LinkedinLoginTest {
         //Click 'Sign in' button
         //Verify Home page is loaded
 
-        System.setProperty("webdriver.chrome.driver", "D:\\WebDrivers\\chromedriver.exe");
 
-        WebDriver driver = new ChromeDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 10);
+        //Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");
 
-        String mainURL = "https://www.linkedin.com/";
+        //Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
+        //Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
+        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver);
+        Assert.assertTrue(linkedinLoginPage.signInButton.isDisplayed(), "sign in button is not displayed on login page");
 
-        driver.get(mainURL);
+        String userEmail = "autotestqa2018@gmail.com";
+        String userPassword = "trust2018";
 
-        Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
-        Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
-
-        WebElement userEmailField = driver.findElement(By.xpath("//input[@id = 'login-email']"));
-        WebElement userPasswordField = driver.findElement(By.xpath("//input[@id = 'login-password']"));
-        WebElement signInButton = driver.findElement(By.xpath("//input[@id = 'login-submit']"));
-
-        Assert.assertTrue(signInButton.isDisplayed(), "sign in button is not displayed on login page");
-
-        userEmailField.sendKeys("autotestqa2018@gmail.com");
-        userPasswordField.sendKeys("trust2018");
-        signInButton.click();
+        linkedinLoginPage.login(userEmail, userPassword);
 
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.linkedin.com/feed/", "Home page URL is wrong");
         Assert.assertEquals(driver.getTitle(), "LinkedIn", "Home page Title is wrong");
@@ -56,32 +67,18 @@ public class LinkedinLoginTest {
         WebElement profileNavItem = driver.findElement(By.xpath("//li[@id = 'profile-nav-item']"));
         Assert.assertTrue(profileNavItem.isDisplayed(), "profileNavItem button is not displayed on Home page");
 
-        driver.quit();
     }
 
     @Test
     public void negativeloginTest(){
-        System.setProperty("webdriver.chrome.driver", "D:\\WebDrivers\\chromedriver.exe");
+        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver);
+        Assert.assertTrue(linkedinLoginPage.signInButton.isDisplayed(), "sign in button is not displayed on login page");
 
-        WebDriver driver = new ChromeDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 10);
+        String userEmail = "a@b.c";
+        String userPassword = "wrong";
 
-        String mainURL = "https://www.linkedin.com/";
+        linkedinLoginPage.login(userEmail, userPassword);
 
-        driver.get(mainURL);
-
-        Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
-        Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
-
-        WebElement userEmailField = driver.findElement(By.xpath("//input[@id = 'login-email']"));
-        WebElement userPasswordField = driver.findElement(By.xpath("//input[@id = 'login-password']"));
-        WebElement signInButton = driver.findElement(By.xpath("//input[@id = 'login-submit']"));
-
-        Assert.assertTrue(signInButton.isDisplayed(), "sign in button is not displayed on login page");
-
-        userEmailField.sendKeys("a@b.c");
-        userPasswordField.sendKeys("wrong");
-        signInButton.click();
 
         try {
             sleep(3000);
@@ -92,20 +89,11 @@ public class LinkedinLoginTest {
         WebElement alertMessage = driver.findElement(By.xpath("//div[@role = 'alert']"));
         Assert.assertEquals(alertMessage.getText(), "There were one or more errors in your submission. Please correct the marked fields below.", "Alert message text is wrong");
 
-        driver.quit();
     }
 
 
     @Test
     public void negativeloginTestEmptyFields(){
-        System.setProperty("webdriver.chrome.driver", "D:\\WebDrivers\\chromedriver.exe");
-
-        WebDriver driver = new ChromeDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-
-        String mainURL = "https://www.linkedin.com/";
-
-        driver.get(mainURL);
 
         Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
         Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
@@ -131,19 +119,10 @@ public class LinkedinLoginTest {
         Assert.assertTrue(userPasswordField.isDisplayed(), "user password field is not displayed on login page");
         Assert.assertTrue(signInButton.isDisplayed(), "sign in button is not displayed on login page");
 
-        driver.quit();
     }
 
     @Test
     public void negativeloginTestFieldsFilledWithBackspace(){
-        System.setProperty("webdriver.chrome.driver", "D:\\WebDrivers\\chromedriver.exe");
-
-        WebDriver driver = new ChromeDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-
-        String mainURL = "https://www.linkedin.com/";
-
-        driver.get(mainURL);
 
         Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
         Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
@@ -171,20 +150,11 @@ public class LinkedinLoginTest {
         Assert.assertTrue(userPasswordField.isDisplayed(), "user password field is not displayed on login page");
         Assert.assertTrue(signInButton.isDisplayed(), "sign in button is not displayed on login page");
 
-        driver.quit();
     }
 
 
     @Test
     public void negativeloginTestEmptyLoginRightPassword(){
-        System.setProperty("webdriver.chrome.driver", "D:\\WebDrivers\\chromedriver.exe");
-
-        WebDriver driver = new ChromeDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-
-        String mainURL = "https://www.linkedin.com/";
-
-        driver.get(mainURL);
 
         Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
         Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
@@ -212,19 +182,10 @@ public class LinkedinLoginTest {
         Assert.assertTrue(userPasswordField.isDisplayed(), "user password field is not displayed on login page");
         Assert.assertTrue(signInButton.isDisplayed(), "sign in button is not displayed on login page");
 
-        driver.quit();
     }
 
     @Test
     public void negativeloginTestRightLoginEmptyPassword(){
-        System.setProperty("webdriver.chrome.driver", "D:\\WebDrivers\\chromedriver.exe");
-
-        WebDriver driver = new ChromeDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-
-        String mainURL = "https://www.linkedin.com/";
-
-        driver.get(mainURL);
 
         Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
         Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
@@ -251,19 +212,10 @@ public class LinkedinLoginTest {
         Assert.assertTrue(userPasswordField.isDisplayed(), "user password field is not displayed on login page");
         Assert.assertTrue(signInButton.isDisplayed(), "sign in button is not displayed on login page");
 
-        driver.quit();
     }
 
     @Test
     public void negativeloginTestLoginIsPassword_PasswordIsLogin(){
-        System.setProperty("webdriver.chrome.driver", "D:\\WebDrivers\\chromedriver.exe");
-
-        WebDriver driver = new ChromeDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-
-        String mainURL = "https://www.linkedin.com/";
-
-        driver.get(mainURL);
 
         Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
         Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
@@ -301,19 +253,10 @@ public class LinkedinLoginTest {
         WebElement errorAnnotationPassword = driver.findElement(By.xpath("//*[@id=\"session_password-login-error\"]"));
         Assert.assertEquals(errorAnnotationPassword.getText(), "", "Password error annotation is wrong");
 
-        driver.quit();
     }
 
     @Test
     public void negativeloginTestLoginIsRight_PasswordIsLess4(){
-        System.setProperty("webdriver.chrome.driver", "D:\\WebDrivers\\chromedriver.exe");
-
-        WebDriver driver = new ChromeDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-
-        String mainURL = "https://www.linkedin.com/";
-
-        driver.get(mainURL);
 
         Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
         Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
@@ -351,19 +294,10 @@ public class LinkedinLoginTest {
         WebElement errorAnnotationPassword = driver.findElement(By.xpath("//*[@id=\"session_password-login-error\"]"));
         Assert.assertEquals(errorAnnotationPassword.getText(), "The password you provided must have at least 6 characters.", "Password error annotation is wrong");
 
-        driver.quit();
     }
 
     @Test
     public void negativeloginTestLoginIsRight_PasswordIsWrong(){
-        System.setProperty("webdriver.chrome.driver", "D:\\WebDrivers\\chromedriver.exe");
-
-        WebDriver driver = new ChromeDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-
-        String mainURL = "https://www.linkedin.com/";
-
-        driver.get(mainURL);
 
         Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
         Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
@@ -401,19 +335,10 @@ public class LinkedinLoginTest {
         WebElement errorAnnotationPassword = driver.findElement(By.xpath("//*[@id=\"session_password-login-error\"]"));
         Assert.assertEquals(errorAnnotationPassword.getText(), "Hmm, that's not the right password. Please try again or request a new one.", "Password error annotation is wrong");
 
-        driver.quit();
     }
 
     @Test
     public void negativeloginTestLoginWithBsEmlEnding_PasswordIsRight(){
-        System.setProperty("webdriver.chrome.driver", "D:\\WebDrivers\\chromedriver.exe");
-
-        WebDriver driver = new ChromeDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-
-        String mainURL = "https://www.linkedin.com/";
-
-        driver.get(mainURL);
 
         Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
         Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
@@ -451,20 +376,11 @@ public class LinkedinLoginTest {
         WebElement errorAnnotationPassword = driver.findElement(By.xpath("//*[@id=\"session_password-login-error\"]"));
         Assert.assertEquals(errorAnnotationPassword.getText(), "", "Password error annotation is wrong");
 
-        driver.quit();
     }
 
 
     @Test
     public void negativeloginTestLoginIsScript_PasswordIsRight(){
-        System.setProperty("webdriver.chrome.driver", "D:\\WebDrivers\\chromedriver.exe");
-
-        WebDriver driver = new ChromeDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-
-        String mainURL = "https://www.linkedin.com/";
-
-        driver.get(mainURL);
 
         Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
         Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
@@ -502,11 +418,7 @@ public class LinkedinLoginTest {
         WebElement errorAnnotationPassword = driver.findElement(By.xpath("//*[@id=\"session_password-login-error\"]"));
         Assert.assertEquals(errorAnnotationPassword.getText(), "", "Password error annotation is wrong");
 
-        driver.quit();
     }
-
-
-
 }
 
 
