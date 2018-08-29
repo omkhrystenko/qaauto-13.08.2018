@@ -15,7 +15,7 @@ import static java.lang.Thread.sleep;
 public class LinkedinLoginTest {
 
     WebDriver driver;
-    WebDriverWait wait;
+    WebDriverWait driverWait;
     String mainURL;
 
     @BeforeClass
@@ -28,7 +28,7 @@ public class LinkedinLoginTest {
         driver = new ChromeDriver();
         mainURL = "https://www.linkedin.com/";
         driver.get(mainURL);
-        wait = new WebDriverWait(driver, 10);
+        driverWait = new WebDriverWait(driver, 10);
     }
 
     @AfterMethod
@@ -49,45 +49,52 @@ public class LinkedinLoginTest {
         //Verify Home page is loaded
 
 
-        //Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");
+        //
 
-        //Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
-        //Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver);
-        Assert.assertTrue(linkedinLoginPage.signInButton.isDisplayed(), "sign in button is not displayed on login page");
+        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
+
+        String currentURL_Login = "https://www.linkedin.com/";
+        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
+
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page is not loaded");
 
         String userEmail = "autotestqa2018@gmail.com";
         String userPassword = "trust2018";
 
         linkedinLoginPage.login(userEmail, userPassword);
 
-        Assert.assertEquals(driver.getCurrentUrl(), "https://www.linkedin.com/feed/", "Home page URL is wrong");
-        Assert.assertEquals(driver.getTitle(), "LinkedIn", "Home page Title is wrong");
+        String currentURL_Home = "https://www.linkedin.com/feed/";
+        String currentTitle_Home = "LinkedIn";
 
-        WebElement profileNavItem = driver.findElement(By.xpath("//li[@id = 'profile-nav-item']"));
-        Assert.assertTrue(profileNavItem.isDisplayed(), "profileNavItem button is not displayed on Home page");
+        ProfilePersonPage profilePersonPage = new ProfilePersonPage(driver, driverWait);
+
+        Assert.assertTrue(profilePersonPage.isPageLoaded(currentURL_Home, currentTitle_Home), "Home page is not loaded");
+        Assert.assertTrue(profilePersonPage.isProfileNavItemDisplayed(), "profileNavItem button is not displayed on Home page");
 
     }
 
     @Test
     public void negativeloginTest(){
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver);
-        Assert.assertTrue(linkedinLoginPage.signInButton.isDisplayed(), "sign in button is not displayed on login page");
+        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
+
+        String currentURL_Login = "https://www.linkedin.com/";
+        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
+
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page is not loaded");
+
 
         String userEmail = "a@b.c";
         String userPassword = "wrong";
 
         linkedinLoginPage.login(userEmail, userPassword);
 
+        LinkedinSubmitLoginPage linkedinSubmitLoginPage = new LinkedinSubmitLoginPage(driver, driverWait);
 
-        try {
-            sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        String currentURL_SubmitLogin = "https://www.linkedin.com/uas/login-submit";
+        String currentTitle_SubmitLogin = "Sign In to LinkedIn";
 
-        WebElement alertMessage = driver.findElement(By.xpath("//div[@role = 'alert']"));
-        Assert.assertEquals(alertMessage.getText(), "There were one or more errors in your submission. Please correct the marked fields below.", "Alert message text is wrong");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_SubmitLogin, currentTitle_SubmitLogin), "SubmitLogin page is not loaded");
+        Assert.assertTrue(linkedinSubmitLoginPage.isAlertMessageDisplayed("There were one or more errors in your submission. Please correct the marked fields below."), "Alert message text is wrong or is not displayed");
 
     }
 
@@ -95,328 +102,216 @@ public class LinkedinLoginTest {
     @Test
     public void negativeloginTestEmptyFields(){
 
-        Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
-        Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
+        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
 
-        WebElement userEmailField = driver.findElement(By.xpath("//input[@id = 'login-email']"));
-        WebElement userPasswordField = driver.findElement(By.xpath("//input[@id = 'login-password']"));
-        WebElement signInButton = driver.findElement(By.xpath("//input[@id = 'login-submit']"));
+        String currentURL_Login = "https://www.linkedin.com/";
+        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
 
-        Assert.assertTrue(signInButton.isDisplayed(), "sign in button is not displayed on login page");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page is not loaded");
 
-        signInButton.click();
+        Assert.assertTrue(linkedinLoginPage.signInButtonIsDisplayed(), "sign in button is not displayed on login page");
+        linkedinLoginPage.signInButtonClick();
 
-        try {
-            sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
-        Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
-
-        Assert.assertTrue(userEmailField.isDisplayed(), "user email field is not displayed on login page");
-        Assert.assertTrue(userPasswordField.isDisplayed(), "user password field is not displayed on login page");
-        Assert.assertTrue(signInButton.isDisplayed(), "sign in button is not displayed on login page");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page URL or Title doesn't not match");
+        Assert.assertTrue(linkedinLoginPage.isControlElementsDisplayed(), "Controll elements displaying failed");
 
     }
 
     @Test
     public void negativeloginTestFieldsFilledWithBackspace(){
+        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
 
-        Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
-        Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
+        String currentURL_Login = "https://www.linkedin.com/";
+        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
 
-        WebElement userEmailField = driver.findElement(By.xpath("//input[@id = 'login-email']"));
-        WebElement userPasswordField = driver.findElement(By.xpath("//input[@id = 'login-password']"));
-        WebElement signInButton = driver.findElement(By.xpath("//input[@id = 'login-submit']"));
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page is not loaded");
+        Assert.assertTrue(linkedinLoginPage.signInButtonIsDisplayed(), "sign in button is not displayed on login page");
 
-        Assert.assertTrue(signInButton.isDisplayed(), "sign in button is not displayed on login page");
+        linkedinLoginPage.sendKeysToLoginField("              ");
+        linkedinLoginPage.sendKeysToPasswordField("          ");
+        linkedinLoginPage.signInButtonClick();
 
-        userEmailField.sendKeys("                   ");
-        userPasswordField.sendKeys("       ");
-        signInButton.click();
-
-        try {
-            sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
-        Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
-
-        Assert.assertTrue(userEmailField.isDisplayed(), "user email field is not displayed on login page");
-        Assert.assertTrue(userPasswordField.isDisplayed(), "user password field is not displayed on login page");
-        Assert.assertTrue(signInButton.isDisplayed(), "sign in button is not displayed on login page");
-
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page URL or Title doesn't not match");
+        Assert.assertTrue(linkedinLoginPage.isControlElementsDisplayed(), "Controll elements displaying failed");
     }
 
 
     @Test
     public void negativeloginTestEmptyLoginRightPassword(){
+        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
 
-        Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
-        Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
+        String currentURL_Login = "https://www.linkedin.com/";
+        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
 
-        WebElement userEmailField = driver.findElement(By.xpath("//input[@id = 'login-email']"));
-        WebElement userPasswordField = driver.findElement(By.xpath("//input[@id = 'login-password']"));
-        WebElement signInButton = driver.findElement(By.xpath("//input[@id = 'login-submit']"));
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page is not loaded");
+        Assert.assertTrue(linkedinLoginPage.signInButtonIsDisplayed(), "sign in button is not displayed on login page");
 
-        Assert.assertTrue(signInButton.isDisplayed(), "sign in button is not displayed on login page");
+        linkedinLoginPage.sendKeysToPasswordField("123456");
+        linkedinLoginPage.signInButtonClick();
 
-
-        userPasswordField.sendKeys("123456");
-        signInButton.click();
-
-        try {
-            sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
-        Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
-
-        Assert.assertTrue(userEmailField.isDisplayed(), "user email field is not displayed on login page");
-        Assert.assertTrue(userPasswordField.isDisplayed(), "user password field is not displayed on login page");
-        Assert.assertTrue(signInButton.isDisplayed(), "sign in button is not displayed on login page");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page URL or Title doesn't not match");
+        Assert.assertTrue(linkedinLoginPage.isControlElementsDisplayed(), "Controll elements displaying failed");
 
     }
 
     @Test
     public void negativeloginTestRightLoginEmptyPassword(){
+        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
 
-        Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
-        Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
+        String currentURL_Login = "https://www.linkedin.com/";
+        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
 
-        WebElement userEmailField = driver.findElement(By.xpath("//input[@id = 'login-email']"));
-        WebElement userPasswordField = driver.findElement(By.xpath("//input[@id = 'login-password']"));
-        WebElement signInButton = driver.findElement(By.xpath("//input[@id = 'login-submit']"));
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page is not loaded");
+        Assert.assertTrue(linkedinLoginPage.signInButtonIsDisplayed(), "sign in button is not displayed on login page");
 
-        Assert.assertTrue(signInButton.isDisplayed(), "sign in button is not displayed on login page");
+        linkedinLoginPage.sendKeysToLoginField("autotestqa2018@gmail.com");
+        linkedinLoginPage.signInButtonClick();
 
-        userEmailField.sendKeys("autotestqa2018@gmail.com");
-        signInButton.click();
-
-        try {
-            sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
-        Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
-
-        Assert.assertTrue(userEmailField.isDisplayed(), "user email field is not displayed on login page");
-        Assert.assertTrue(userPasswordField.isDisplayed(), "user password field is not displayed on login page");
-        Assert.assertTrue(signInButton.isDisplayed(), "sign in button is not displayed on login page");
-
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page URL or Title doesn't not match");
+        Assert.assertTrue(linkedinLoginPage.isControlElementsDisplayed(), "Controll elements displaying failed");
     }
 
     @Test
     public void negativeloginTestLoginIsPassword_PasswordIsLogin(){
+        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
 
-        Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
-        Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
+        String currentURL_Login = "https://www.linkedin.com/";
+        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
 
-        WebElement userEmailField = driver.findElement(By.xpath("//input[@id = 'login-email']"));
-        WebElement userPasswordField = driver.findElement(By.xpath("//input[@id = 'login-password']"));
-        WebElement signInButton = driver.findElement(By.xpath("//input[@id = 'login-submit']"));
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page is not loaded");
+        Assert.assertTrue(linkedinLoginPage.signInButtonIsDisplayed(), "sign in button is not displayed on login page");
 
-        Assert.assertTrue(signInButton.isDisplayed(), "sign in button is not displayed on login page");
+        linkedinLoginPage.sendKeysToLoginField("trust2018");
+        linkedinLoginPage.sendKeysToPasswordField("autotestqa2018@gmail.com");
+        linkedinLoginPage.signInButtonClick();
 
-        userEmailField.sendKeys("trust2018");
-        userPasswordField.sendKeys("autotestqa2018@gmail.com");
-        signInButton.click();
-
-        try {
-            sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+        LinkedinSubmitLoginPage linkedinSubmitLoginPage = new LinkedinSubmitLoginPage(driver, driverWait);
 
         String pageLoginPasswordSubmit = "https://www.linkedin.com/uas/login-submit";
-        Assert.assertEquals(driver.getCurrentUrl(), pageLoginPasswordSubmit, "Submit login page URL doesn't not match");
-        Assert.assertEquals(driver.getTitle(), "Sign In to LinkedIn", "Submit login page title is wrong");
+        String titleLoginPasswordSubmit = "Sign In to LinkedIn";
 
-        WebElement alertMessage = driver.findElement(By.xpath("//div[@role = 'alert']"));
-        Assert.assertEquals(alertMessage.getText(), "There were one or more errors in your submission. Please correct the marked fields below.", "Alert message text is wrong");
+        Assert.assertTrue(linkedinSubmitLoginPage.isPageLoaded(pageLoginPasswordSubmit, titleLoginPasswordSubmit), "SubmitLogin page is not loaded");
+        Assert.assertTrue(linkedinSubmitLoginPage.isAlertMessageDisplayed("There were one or more errors in your submission. Please correct the marked fields below."), "Alert message text is wrong or is not displayed");
 
-        //WebElement submitLoginPasswordWindow = driver.findElement(By.xpath("//*[@id=\"control_gen_2\"]"));
-        //Assert.assertTrue(submitLoginPasswordWindow.isDisplayed(), "Submit login_password window is absent");
+        String errorAnnotTextLogin = "Please enter a valid email address.";
+        String errorAnnotTextPassword = "";
 
-        WebElement errorAnnotationLogin = driver.findElement(By.xpath("//*[@id=\"session_key-login-error\"]"));
-        Assert.assertEquals(errorAnnotationLogin.getText(), "Please enter a valid email address.", "Login error annotation is wrong");
-
-        WebElement errorAnnotationPassword = driver.findElement(By.xpath("//*[@id=\"session_password-login-error\"]"));
-        Assert.assertEquals(errorAnnotationPassword.getText(), "", "Password error annotation is wrong");
-
+        Assert.assertTrue(linkedinSubmitLoginPage.isAlertAnnotationsTextMatches(errorAnnotTextLogin,errorAnnotTextPassword), "Login or Password error annotation is wrong");
     }
 
     @Test
     public void negativeloginTestLoginIsRight_PasswordIsLess4(){
+        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
 
-        Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
-        Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
+        String currentURL_Login = "https://www.linkedin.com/";
+        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
 
-        WebElement userEmailField = driver.findElement(By.xpath("//input[@id = 'login-email']"));
-        WebElement userPasswordField = driver.findElement(By.xpath("//input[@id = 'login-password']"));
-        WebElement signInButton = driver.findElement(By.xpath("//input[@id = 'login-submit']"));
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page is not loaded");
+        Assert.assertTrue(linkedinLoginPage.signInButtonIsDisplayed(), "sign in button is not displayed on login page");
 
-        Assert.assertTrue(signInButton.isDisplayed(), "sign in button is not displayed on login page");
+        linkedinLoginPage.sendKeysToLoginField("autotestqa2018@gmail.com");
+        linkedinLoginPage.sendKeysToPasswordField("12345");
+        linkedinLoginPage.signInButtonClick();
 
-        userEmailField.sendKeys("autotestqa2018@gmail.com");
-        userPasswordField.sendKeys("12345");
-        signInButton.click();
-
-        try {
-            sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+        LinkedinSubmitLoginPage linkedinSubmitLoginPage = new LinkedinSubmitLoginPage(driver, driverWait);
 
         String pageLoginPasswordSubmit = "https://www.linkedin.com/uas/login-submit";
-        Assert.assertEquals(driver.getCurrentUrl(), pageLoginPasswordSubmit, "Submit login page URL doesn't not match");
-        Assert.assertEquals(driver.getTitle(), "Sign In to LinkedIn", "Submit login page title is wrong");
+        String titleLoginPasswordSubmit = "Sign In to LinkedIn";
 
-        WebElement alertMessage = driver.findElement(By.xpath("//div[@role = 'alert']"));
-        Assert.assertEquals(alertMessage.getText(), "There were one or more errors in your submission. Please correct the marked fields below.", "Alert message text is wrong");
+        Assert.assertTrue(linkedinSubmitLoginPage.isPageLoaded(pageLoginPasswordSubmit, titleLoginPasswordSubmit), "SubmitLogin page is not loaded");
+        Assert.assertTrue(linkedinSubmitLoginPage.isAlertMessageDisplayed("There were one or more errors in your submission. Please correct the marked fields below."), "Alert message text is wrong or is not displayed");
 
-        //WebElement submitLoginPasswordWindow = driver.findElement(By.xpath("//*[@id=\"control_gen_2\"]"));
-        //Assert.assertTrue(submitLoginPasswordWindow.isDisplayed(), "Submit login_password window is absent");
+        String errorAnnotTextLogin = "";
+        String errorAnnotTextPassword = "The password you provided must have at least 6 characters.";
 
-        WebElement errorAnnotationLogin = driver.findElement(By.xpath("//*[@id=\"session_key-login-error\"]"));
-        Assert.assertEquals(errorAnnotationLogin.getText(), "", "Login error annotation is wrong");
-
-        WebElement errorAnnotationPassword = driver.findElement(By.xpath("//*[@id=\"session_password-login-error\"]"));
-        Assert.assertEquals(errorAnnotationPassword.getText(), "The password you provided must have at least 6 characters.", "Password error annotation is wrong");
-
+        Assert.assertTrue(linkedinSubmitLoginPage.isAlertAnnotationsTextMatches(errorAnnotTextLogin,errorAnnotTextPassword), "Login or Password error annotation is wrong");
     }
 
     @Test
     public void negativeloginTestLoginIsRight_PasswordIsWrong(){
+        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
 
-        Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
-        Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
+        String currentURL_Login = "https://www.linkedin.com/";
+        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
 
-        WebElement userEmailField = driver.findElement(By.xpath("//input[@id = 'login-email']"));
-        WebElement userPasswordField = driver.findElement(By.xpath("//input[@id = 'login-password']"));
-        WebElement signInButton = driver.findElement(By.xpath("//input[@id = 'login-submit']"));
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page is not loaded");
+        Assert.assertTrue(linkedinLoginPage.signInButtonIsDisplayed(), "sign in button is not displayed on login page");
 
-        Assert.assertTrue(signInButton.isDisplayed(), "sign in button is not displayed on login page");
+        linkedinLoginPage.sendKeysToLoginField("autotestqa2018@gmail.com");
+        linkedinLoginPage.sendKeysToPasswordField("123456");
+        linkedinLoginPage.signInButtonClick();
 
-        userEmailField.sendKeys("autotestqa2018@gmail.com");
-        userPasswordField.sendKeys("123456");
-        signInButton.click();
-
-        try {
-            sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+        LinkedinSubmitLoginPage linkedinSubmitLoginPage = new LinkedinSubmitLoginPage(driver, driverWait);
 
         String pageLoginPasswordSubmit = "https://www.linkedin.com/uas/login-submit";
-        Assert.assertEquals(driver.getCurrentUrl(), pageLoginPasswordSubmit, "Submit login page URL doesn't not match");
-        Assert.assertEquals(driver.getTitle(), "Sign In to LinkedIn", "Submit login page title is wrong");
+        String titleLoginPasswordSubmit = "Sign In to LinkedIn";
 
-        WebElement alertMessage = driver.findElement(By.xpath("//div[@role = 'alert']"));
-        Assert.assertEquals(alertMessage.getText(), "There were one or more errors in your submission. Please correct the marked fields below.", "Alert message text is wrong");
+        Assert.assertTrue(linkedinSubmitLoginPage.isPageLoaded(pageLoginPasswordSubmit, titleLoginPasswordSubmit), "SubmitLogin page is not loaded");
+        Assert.assertTrue(linkedinSubmitLoginPage.isAlertMessageDisplayed("There were one or more errors in your submission. Please correct the marked fields below."), "Alert message text is wrong or is not displayed");
 
-        //WebElement submitLoginPasswordWindow = driver.findElement(By.xpath("//*[@id=\"control_gen_2\"]"));
-        //Assert.assertTrue(submitLoginPasswordWindow.isDisplayed(), "Submit login_password window is absent");
+        String errorAnnotTextLogin = "";
+        String errorAnnotTextPassword = "Hmm, that's not the right password. Please try again or request a new one.";
 
-        WebElement errorAnnotationLogin = driver.findElement(By.xpath("//*[@id=\"session_key-login-error\"]"));
-        Assert.assertEquals(errorAnnotationLogin.getText(), "", "Login error annotation is wrong");
-
-        WebElement errorAnnotationPassword = driver.findElement(By.xpath("//*[@id=\"session_password-login-error\"]"));
-        Assert.assertEquals(errorAnnotationPassword.getText(), "Hmm, that's not the right password. Please try again or request a new one.", "Password error annotation is wrong");
+        Assert.assertTrue(linkedinSubmitLoginPage.isAlertAnnotationsTextMatches(errorAnnotTextLogin,errorAnnotTextPassword), "Login or Password error annotation is wrong");
 
     }
 
     @Test
     public void negativeloginTestLoginWithBsEmlEnding_PasswordIsRight(){
+        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
 
-        Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
-        Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
+        String currentURL_Login = "https://www.linkedin.com/";
+        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
 
-        WebElement userEmailField = driver.findElement(By.xpath("//input[@id = 'login-email']"));
-        WebElement userPasswordField = driver.findElement(By.xpath("//input[@id = 'login-password']"));
-        WebElement signInButton = driver.findElement(By.xpath("//input[@id = 'login-submit']"));
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page is not loaded");
+        Assert.assertTrue(linkedinLoginPage.signInButtonIsDisplayed(), "sign in button is not displayed on login page");
 
-        Assert.assertTrue(signInButton.isDisplayed(), "sign in button is not displayed on login page");
+        linkedinLoginPage.sendKeysToLoginField("            @gmail.com");
+        linkedinLoginPage.sendKeysToPasswordField("123456");
+        linkedinLoginPage.signInButtonClick();
 
-        userEmailField.sendKeys("            @gmail.com");
-        userPasswordField.sendKeys("123456");
-        signInButton.click();
-
-        try {
-            sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+        LinkedinSubmitLoginPage linkedinSubmitLoginPage = new LinkedinSubmitLoginPage(driver, driverWait);
 
         String pageLoginPasswordSubmit = "https://www.linkedin.com/uas/login-submit";
-        Assert.assertEquals(driver.getCurrentUrl(), pageLoginPasswordSubmit, "Submit login page URL doesn't not match");
-        Assert.assertEquals(driver.getTitle(), "Sign In to LinkedIn", "Submit login page title is wrong");
+        String titleLoginPasswordSubmit = "Sign In to LinkedIn";
 
-        WebElement alertMessage = driver.findElement(By.xpath("//div[@role = 'alert']"));
-        Assert.assertEquals(alertMessage.getText(), "There were one or more errors in your submission. Please correct the marked fields below.", "Alert message text is wrong");
+        Assert.assertTrue(linkedinSubmitLoginPage.isPageLoaded(pageLoginPasswordSubmit, titleLoginPasswordSubmit), "SubmitLogin page is not loaded");
+        Assert.assertTrue(linkedinSubmitLoginPage.isAlertMessageDisplayed("There were one or more errors in your submission. Please correct the marked fields below."), "Alert message text is wrong or is not displayed");
 
-        //WebElement submitLoginPasswordWindow = driver.findElement(By.xpath("//*[@id=\"control_gen_2\"]"));
-        //Assert.assertTrue(submitLoginPasswordWindow.isDisplayed(), "Submit login_password window is absent");
+        String errorAnnotTextLogin = "Please enter a valid email address.";
+        String errorAnnotTextPassword = "";
 
-        WebElement errorAnnotationLogin = driver.findElement(By.xpath("//*[@id=\"session_key-login-error\"]"));
-        Assert.assertEquals(errorAnnotationLogin.getText(), "Please enter a valid email address.", "Login error annotation is wrong");
-
-        WebElement errorAnnotationPassword = driver.findElement(By.xpath("//*[@id=\"session_password-login-error\"]"));
-        Assert.assertEquals(errorAnnotationPassword.getText(), "", "Password error annotation is wrong");
+        Assert.assertTrue(linkedinSubmitLoginPage.isAlertAnnotationsTextMatches(errorAnnotTextLogin,errorAnnotTextPassword), "Login or Password error annotation is wrong");
 
     }
 
 
     @Test
     public void negativeloginTestLoginIsScript_PasswordIsRight(){
+        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
 
-        Assert.assertEquals(driver.getCurrentUrl(), mainURL, "Login page URL doesn't not match");
-        Assert.assertEquals(driver.getTitle(), "LinkedIn: Log In or Sign Up", "Login page title is wrong");
+        String currentURL_Login = "https://www.linkedin.com/";
+        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
 
-        WebElement userEmailField = driver.findElement(By.xpath("//input[@id = 'login-email']"));
-        WebElement userPasswordField = driver.findElement(By.xpath("//input[@id = 'login-password']"));
-        WebElement signInButton = driver.findElement(By.xpath("//input[@id = 'login-submit']"));
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page is not loaded");
+        Assert.assertTrue(linkedinLoginPage.signInButtonIsDisplayed(), "sign in button is not displayed on login page");
 
-        Assert.assertTrue(signInButton.isDisplayed(), "sign in button is not displayed on login page");
+        linkedinLoginPage.sendKeysToLoginField("<script>alert(123)</script>");
+        linkedinLoginPage.sendKeysToPasswordField("123456");
+        linkedinLoginPage.signInButtonClick();
 
-        userEmailField.sendKeys("<script>alert(123)</script>");
-        userPasswordField.sendKeys("123456");
-        signInButton.click();
-
-        try {
-            sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+        LinkedinSubmitLoginPage linkedinSubmitLoginPage = new LinkedinSubmitLoginPage(driver, driverWait);
 
         String pageLoginPasswordSubmit = "https://www.linkedin.com/uas/login-submit";
-        Assert.assertEquals(driver.getCurrentUrl(), pageLoginPasswordSubmit, "Submit login page URL doesn't not match");
-        Assert.assertEquals(driver.getTitle(), "Sign In to LinkedIn", "Submit login page title is wrong");
+        String titleLoginPasswordSubmit = "Sign In to LinkedIn";
 
-        WebElement alertMessage = driver.findElement(By.xpath("//div[@role = 'alert']"));
-        Assert.assertEquals(alertMessage.getText(), "There were one or more errors in your submission. Please correct the marked fields below.", "Alert message text is wrong");
+        Assert.assertTrue(linkedinSubmitLoginPage.isPageLoaded(pageLoginPasswordSubmit, titleLoginPasswordSubmit), "SubmitLogin page is not loaded");
+        Assert.assertTrue(linkedinSubmitLoginPage.isAlertMessageDisplayed("There were one or more errors in your submission. Please correct the marked fields below."), "Alert message text is wrong or is not displayed");
 
-        //WebElement submitLoginPasswordWindow = driver.findElement(By.xpath("//*[@id=\"control_gen_2\"]"));
-        //Assert.assertTrue(submitLoginPasswordWindow.isDisplayed(), "Submit login_password window is absent");
+        String errorAnnotTextLogin = "Please enter a valid email address.";
+        String errorAnnotTextPassword = "";
 
-        WebElement errorAnnotationLogin = driver.findElement(By.xpath("//*[@id=\"session_key-login-error\"]"));
-        Assert.assertEquals(errorAnnotationLogin.getText(), "Please enter a valid email address.", "Login error annotation is wrong");
-
-        WebElement errorAnnotationPassword = driver.findElement(By.xpath("//*[@id=\"session_password-login-error\"]"));
-        Assert.assertEquals(errorAnnotationPassword.getText(), "", "Password error annotation is wrong");
+        Assert.assertTrue(linkedinSubmitLoginPage.isAlertAnnotationsTextMatches(errorAnnotTextLogin,errorAnnotTextPassword), "Login or Password error annotation is wrong");
 
     }
 }

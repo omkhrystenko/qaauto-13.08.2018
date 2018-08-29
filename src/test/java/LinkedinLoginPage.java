@@ -1,19 +1,19 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static java.lang.Thread.sleep;
 
-public class LinkedinLoginPage {
-
-    private WebDriver driver;
+public class LinkedinLoginPage extends BasePage {
 
     private WebElement userEmailField;
     private WebElement userPasswordField;
     private WebElement signInButton;
 
-    public LinkedinLoginPage(WebDriver driver) {
-        this.driver = driver;
+    public LinkedinLoginPage(WebDriver driver, WebDriverWait driverWait) {
+        super(driver, driverWait);
         initElements();
     }
 
@@ -35,18 +35,35 @@ public class LinkedinLoginPage {
         }
     }
 
-    public String getCurrentURL(){
-        return driver.getCurrentUrl();
-    }
-
-    public String getCurrentTitle(){
-        return driver.getTitle();
+    public boolean signInButtonIsDisplayed(){
+        return signInButton.isDisplayed();
     }
 
 
-    public boolean isPageLoaded(){
-        return  getCurrentURL().equals("https://www.linkedin.com/")
-                && getCurrentTitle().equals("LinkedIn: Log In or Sign Up")
-                && signInButton.isDisplayed();
+    public void signInButtonClick(){
+            signInButton.click();
+        try {
+            sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
+
+    public void sendKeysToLoginField(String text){
+        userEmailField.sendKeys(text);
+    }
+
+    public void sendKeysToPasswordField(String text){
+        userPasswordField.sendKeys(text);
+    }
+
+
+    public boolean isControlElementsDisplayed(){
+        return userEmailField.isDisplayed() &&
+                userPasswordField.isDisplayed() &&
+                signInButton.isDisplayed();
+    }
+
+
+
 }
