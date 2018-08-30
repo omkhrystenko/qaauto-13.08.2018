@@ -23,5 +23,11 @@ public class ProfilePersonPage extends BasePage{
         return res;
     }
 
+    public boolean isPageLoaded(){
+        String currentURL_Home = "https://www.linkedin.com/feed/";
+        String currentTitle_Home = "LinkedIn";
+        return isPageLoaded(currentURL_Home, currentTitle_Home);
+    }
+
 
 }

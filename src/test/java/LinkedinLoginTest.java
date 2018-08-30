@@ -52,23 +52,15 @@ public class LinkedinLoginTest {
         //
 
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
-
-        String currentURL_Login = "https://www.linkedin.com/";
-        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
-
-        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page is not loaded");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");
 
         String userEmail = "autotestqa2018@gmail.com";
         String userPassword = "trust2018";
 
         linkedinLoginPage.login(userEmail, userPassword);
 
-        String currentURL_Home = "https://www.linkedin.com/feed/";
-        String currentTitle_Home = "LinkedIn";
-
         ProfilePersonPage profilePersonPage = new ProfilePersonPage(driver, driverWait);
-
-        Assert.assertTrue(profilePersonPage.isPageLoaded(currentURL_Home, currentTitle_Home), "Home page is not loaded");
+        Assert.assertTrue(profilePersonPage.isPageLoaded(), "Home page is not loaded");
         Assert.assertTrue(profilePersonPage.isProfileNavItemDisplayed(), "profileNavItem button is not displayed on Home page");
 
     }
@@ -76,12 +68,7 @@ public class LinkedinLoginTest {
     @Test
     public void negativeloginTest(){
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
-
-        String currentURL_Login = "https://www.linkedin.com/";
-        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
-
-        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page is not loaded");
-
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");
 
         String userEmail = "a@b.c";
         String userPassword = "wrong";
@@ -89,11 +76,7 @@ public class LinkedinLoginTest {
         linkedinLoginPage.login(userEmail, userPassword);
 
         LinkedinSubmitLoginPage linkedinSubmitLoginPage = new LinkedinSubmitLoginPage(driver, driverWait);
-
-        String currentURL_SubmitLogin = "https://www.linkedin.com/uas/login-submit";
-        String currentTitle_SubmitLogin = "Sign In to LinkedIn";
-
-        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_SubmitLogin, currentTitle_SubmitLogin), "SubmitLogin page is not loaded");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "SubmitLogin page is not loaded");
         Assert.assertTrue(linkedinSubmitLoginPage.isAlertMessageDisplayed("There were one or more errors in your submission. Please correct the marked fields below."), "Alert message text is wrong or is not displayed");
 
     }
@@ -103,16 +86,12 @@ public class LinkedinLoginTest {
     public void negativeloginTestEmptyFields(){
 
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
-
-        String currentURL_Login = "https://www.linkedin.com/";
-        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
-
-        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page is not loaded");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");
 
         Assert.assertTrue(linkedinLoginPage.signInButtonIsDisplayed(), "sign in button is not displayed on login page");
         linkedinLoginPage.signInButtonClick();
 
-        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page URL or Title doesn't not match");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page URL or Title doesn't not match");
         Assert.assertTrue(linkedinLoginPage.isControlElementsDisplayed(), "Controll elements displaying failed");
 
     }
@@ -120,18 +99,14 @@ public class LinkedinLoginTest {
     @Test
     public void negativeloginTestFieldsFilledWithBackspace(){
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
-
-        String currentURL_Login = "https://www.linkedin.com/";
-        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
-
-        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page is not loaded");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");
         Assert.assertTrue(linkedinLoginPage.signInButtonIsDisplayed(), "sign in button is not displayed on login page");
 
         linkedinLoginPage.sendKeysToLoginField("              ");
         linkedinLoginPage.sendKeysToPasswordField("          ");
         linkedinLoginPage.signInButtonClick();
 
-        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page URL or Title doesn't not match");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page URL or Title doesn't not match");
         Assert.assertTrue(linkedinLoginPage.isControlElementsDisplayed(), "Controll elements displaying failed");
     }
 
@@ -139,17 +114,13 @@ public class LinkedinLoginTest {
     @Test
     public void negativeloginTestEmptyLoginRightPassword(){
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
-
-        String currentURL_Login = "https://www.linkedin.com/";
-        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
-
-        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page is not loaded");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");
         Assert.assertTrue(linkedinLoginPage.signInButtonIsDisplayed(), "sign in button is not displayed on login page");
 
         linkedinLoginPage.sendKeysToPasswordField("123456");
         linkedinLoginPage.signInButtonClick();
 
-        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page URL or Title doesn't not match");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page URL or Title doesn't not match");
         Assert.assertTrue(linkedinLoginPage.isControlElementsDisplayed(), "Controll elements displaying failed");
 
     }
@@ -157,17 +128,13 @@ public class LinkedinLoginTest {
     @Test
     public void negativeloginTestRightLoginEmptyPassword(){
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
-
-        String currentURL_Login = "https://www.linkedin.com/";
-        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
-
-        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page is not loaded");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");
         Assert.assertTrue(linkedinLoginPage.signInButtonIsDisplayed(), "sign in button is not displayed on login page");
 
         linkedinLoginPage.sendKeysToLoginField("autotestqa2018@gmail.com");
         linkedinLoginPage.signInButtonClick();
 
-        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page URL or Title doesn't not match");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page URL or Title doesn't not match");
         Assert.assertTrue(linkedinLoginPage.isControlElementsDisplayed(), "Controll elements displaying failed");
     }
 
@@ -175,10 +142,7 @@ public class LinkedinLoginTest {
     public void negativeloginTestLoginIsPassword_PasswordIsLogin(){
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
 
-        String currentURL_Login = "https://www.linkedin.com/";
-        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
-
-        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page is not loaded");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");
         Assert.assertTrue(linkedinLoginPage.signInButtonIsDisplayed(), "sign in button is not displayed on login page");
 
         linkedinLoginPage.sendKeysToLoginField("trust2018");
@@ -187,10 +151,7 @@ public class LinkedinLoginTest {
 
         LinkedinSubmitLoginPage linkedinSubmitLoginPage = new LinkedinSubmitLoginPage(driver, driverWait);
 
-        String pageLoginPasswordSubmit = "https://www.linkedin.com/uas/login-submit";
-        String titleLoginPasswordSubmit = "Sign In to LinkedIn";
-
-        Assert.assertTrue(linkedinSubmitLoginPage.isPageLoaded(pageLoginPasswordSubmit, titleLoginPasswordSubmit), "SubmitLogin page is not loaded");
+        Assert.assertTrue(linkedinSubmitLoginPage.isPageLoaded(), "SubmitLogin page is not loaded");
         Assert.assertTrue(linkedinSubmitLoginPage.isAlertMessageDisplayed("There were one or more errors in your submission. Please correct the marked fields below."), "Alert message text is wrong or is not displayed");
 
         String errorAnnotTextLogin = "Please enter a valid email address.";
@@ -203,10 +164,7 @@ public class LinkedinLoginTest {
     public void negativeloginTestLoginIsRight_PasswordIsLess4(){
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
 
-        String currentURL_Login = "https://www.linkedin.com/";
-        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
-
-        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page is not loaded");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");
         Assert.assertTrue(linkedinLoginPage.signInButtonIsDisplayed(), "sign in button is not displayed on login page");
 
         linkedinLoginPage.sendKeysToLoginField("autotestqa2018@gmail.com");
@@ -215,10 +173,7 @@ public class LinkedinLoginTest {
 
         LinkedinSubmitLoginPage linkedinSubmitLoginPage = new LinkedinSubmitLoginPage(driver, driverWait);
 
-        String pageLoginPasswordSubmit = "https://www.linkedin.com/uas/login-submit";
-        String titleLoginPasswordSubmit = "Sign In to LinkedIn";
-
-        Assert.assertTrue(linkedinSubmitLoginPage.isPageLoaded(pageLoginPasswordSubmit, titleLoginPasswordSubmit), "SubmitLogin page is not loaded");
+        Assert.assertTrue(linkedinSubmitLoginPage.isPageLoaded(), "SubmitLogin page is not loaded");
         Assert.assertTrue(linkedinSubmitLoginPage.isAlertMessageDisplayed("There were one or more errors in your submission. Please correct the marked fields below."), "Alert message text is wrong or is not displayed");
 
         String errorAnnotTextLogin = "";
@@ -231,10 +186,7 @@ public class LinkedinLoginTest {
     public void negativeloginTestLoginIsRight_PasswordIsWrong(){
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
 
-        String currentURL_Login = "https://www.linkedin.com/";
-        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
-
-        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page is not loaded");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");
         Assert.assertTrue(linkedinLoginPage.signInButtonIsDisplayed(), "sign in button is not displayed on login page");
 
         linkedinLoginPage.sendKeysToLoginField("autotestqa2018@gmail.com");
@@ -243,10 +195,7 @@ public class LinkedinLoginTest {
 
         LinkedinSubmitLoginPage linkedinSubmitLoginPage = new LinkedinSubmitLoginPage(driver, driverWait);
 
-        String pageLoginPasswordSubmit = "https://www.linkedin.com/uas/login-submit";
-        String titleLoginPasswordSubmit = "Sign In to LinkedIn";
-
-        Assert.assertTrue(linkedinSubmitLoginPage.isPageLoaded(pageLoginPasswordSubmit, titleLoginPasswordSubmit), "SubmitLogin page is not loaded");
+        Assert.assertTrue(linkedinSubmitLoginPage.isPageLoaded(), "SubmitLogin page is not loaded");
         Assert.assertTrue(linkedinSubmitLoginPage.isAlertMessageDisplayed("There were one or more errors in your submission. Please correct the marked fields below."), "Alert message text is wrong or is not displayed");
 
         String errorAnnotTextLogin = "";
@@ -260,10 +209,7 @@ public class LinkedinLoginTest {
     public void negativeloginTestLoginWithBsEmlEnding_PasswordIsRight(){
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
 
-        String currentURL_Login = "https://www.linkedin.com/";
-        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
-
-        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page is not loaded");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");
         Assert.assertTrue(linkedinLoginPage.signInButtonIsDisplayed(), "sign in button is not displayed on login page");
 
         linkedinLoginPage.sendKeysToLoginField("            @gmail.com");
@@ -272,10 +218,7 @@ public class LinkedinLoginTest {
 
         LinkedinSubmitLoginPage linkedinSubmitLoginPage = new LinkedinSubmitLoginPage(driver, driverWait);
 
-        String pageLoginPasswordSubmit = "https://www.linkedin.com/uas/login-submit";
-        String titleLoginPasswordSubmit = "Sign In to LinkedIn";
-
-        Assert.assertTrue(linkedinSubmitLoginPage.isPageLoaded(pageLoginPasswordSubmit, titleLoginPasswordSubmit), "SubmitLogin page is not loaded");
+        Assert.assertTrue(linkedinSubmitLoginPage.isPageLoaded(), "SubmitLogin page is not loaded");
         Assert.assertTrue(linkedinSubmitLoginPage.isAlertMessageDisplayed("There were one or more errors in your submission. Please correct the marked fields below."), "Alert message text is wrong or is not displayed");
 
         String errorAnnotTextLogin = "Please enter a valid email address.";
@@ -290,10 +233,7 @@ public class LinkedinLoginTest {
     public void negativeloginTestLoginIsScript_PasswordIsRight(){
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
 
-        String currentURL_Login = "https://www.linkedin.com/";
-        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
-
-        Assert.assertTrue(linkedinLoginPage.isPageLoaded(currentURL_Login, currentTitle_Login), "Login page is not loaded");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");
         Assert.assertTrue(linkedinLoginPage.signInButtonIsDisplayed(), "sign in button is not displayed on login page");
 
         linkedinLoginPage.sendKeysToLoginField("<script>alert(123)</script>");
@@ -302,10 +242,7 @@ public class LinkedinLoginTest {
 
         LinkedinSubmitLoginPage linkedinSubmitLoginPage = new LinkedinSubmitLoginPage(driver, driverWait);
 
-        String pageLoginPasswordSubmit = "https://www.linkedin.com/uas/login-submit";
-        String titleLoginPasswordSubmit = "Sign In to LinkedIn";
-
-        Assert.assertTrue(linkedinSubmitLoginPage.isPageLoaded(pageLoginPasswordSubmit, titleLoginPasswordSubmit), "SubmitLogin page is not loaded");
+        Assert.assertTrue(linkedinSubmitLoginPage.isPageLoaded(), "SubmitLogin page is not loaded");
         Assert.assertTrue(linkedinSubmitLoginPage.isAlertMessageDisplayed("There were one or more errors in your submission. Please correct the marked fields below."), "Alert message text is wrong or is not displayed");
 
         String errorAnnotTextLogin = "Please enter a valid email address.";

@@ -66,4 +66,12 @@ public class LinkedinLoginPage extends BasePage {
 
 
 
+    public boolean isPageLoaded(){
+        String currentURL_Login = "https://www.linkedin.com/";
+        String currentTitle_Login = "LinkedIn: Log In or Sign Up";
+        return isPageLoaded(currentURL_Login, currentTitle_Login);
+    }
+
+
+
 }

@@ -39,5 +39,11 @@ public class LinkedinSubmitLoginPage extends BasePage {
         return res;
     }
 
+    public boolean isPageLoaded(){
+        String currentURL_SubmitLogin = "https://www.linkedin.com/uas/login-submit";
+        String currentTitle_SubmitLogin = "Sign In to LinkedIn";
+        return isPageLoaded(currentURL_SubmitLogin, currentTitle_SubmitLogin);
+    }
+
 
 }
