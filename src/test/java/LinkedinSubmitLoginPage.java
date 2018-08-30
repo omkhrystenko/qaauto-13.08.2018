@@ -2,7 +2,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
 public class LinkedinSubmitLoginPage extends BasePage {
 
@@ -42,7 +41,7 @@ public class LinkedinSubmitLoginPage extends BasePage {
     public boolean isPageLoaded(){
         String currentURL_SubmitLogin = "https://www.linkedin.com/uas/login-submit";
         String currentTitle_SubmitLogin = "Sign In to LinkedIn";
-        return isPageLoaded(currentURL_SubmitLogin, currentTitle_SubmitLogin);
+        return isPageLoaded(currentURL_SubmitLogin, currentTitle_SubmitLogin, alertMessage);
     }
 
 

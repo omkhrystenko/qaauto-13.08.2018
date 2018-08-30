@@ -1,16 +1,9 @@
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import static java.lang.Thread.sleep;
 
 public class LinkedinLoginTest {
 
@@ -36,11 +29,17 @@ public class LinkedinLoginTest {
         driver.quit();
     }
 
+    @DataProvider
+    public Object[][] validDataProvider() {
+        return new Object[][]{
+                {"autotestqa2018@gmail.com", "trust2018"},
+                {"AUTOtestqa2018@gmail.com", "trust2018"}
+        };
+    }
 
 
-
-    @Test
-    public void successfulLoginTest() {
+    @Test(dataProvider = "validDataProvider")
+    public void successfulLoginTest(String userEmail, String userPassword) {
         //Navigate to 'Linkedin.com'
         //Verify that login page is loaded
         //Enter user e-mail
@@ -54,14 +53,11 @@ public class LinkedinLoginTest {
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
         Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");
 
-        String userEmail = "autotestqa2018@gmail.com";
-        String userPassword = "trust2018";
-
         linkedinLoginPage.login(userEmail, userPassword);
 
-        ProfilePersonPage profilePersonPage = new ProfilePersonPage(driver, driverWait);
-        Assert.assertTrue(profilePersonPage.isPageLoaded(), "Home page is not loaded");
-        Assert.assertTrue(profilePersonPage.isProfileNavItemDisplayed(), "profileNavItem button is not displayed on Home page");
+        LinkedinHomePage linkedinHomePage = new LinkedinHomePage(driver, driverWait);
+        Assert.assertTrue(linkedinHomePage.isPageLoaded(), "Home page is not loaded");
+        Assert.assertTrue(linkedinHomePage.isProfileNavItemDisplayed(), "profileNavItem button is not displayed on Home page");
 
     }
 
@@ -76,7 +72,7 @@ public class LinkedinLoginTest {
         linkedinLoginPage.login(userEmail, userPassword);
 
         LinkedinSubmitLoginPage linkedinSubmitLoginPage = new LinkedinSubmitLoginPage(driver, driverWait);
-        Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "SubmitLogin page is not loaded");
+        Assert.assertTrue(linkedinSubmitLoginPage.isPageLoaded(), "SubmitLogin page is not loaded");
         Assert.assertTrue(linkedinSubmitLoginPage.isAlertMessageDisplayed("There were one or more errors in your submission. Please correct the marked fields below."), "Alert message text is wrong or is not displayed");
 
     }

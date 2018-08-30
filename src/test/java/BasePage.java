@@ -1,4 +1,5 @@
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class BasePage {
@@ -18,9 +19,10 @@ public class BasePage {
         return driver.getTitle();
     }
 
-    public boolean isPageLoaded(String currentUrl, String currentTitle){
+    public boolean isPageLoaded(String currentUrl, String currentTitle, WebElement uniqElement){
         return  getCurrentURL().equals(currentUrl)
-                && getCurrentTitle().equals(currentTitle);
+                && getCurrentTitle().equals(currentTitle)
+                && uniqElement.isDisplayed();
 
     }
 }

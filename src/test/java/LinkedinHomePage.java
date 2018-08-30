@@ -3,10 +3,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class ProfilePersonPage extends BasePage{
+public class LinkedinHomePage extends BasePage{
     WebElement profileNavItem;
 
-    public ProfilePersonPage(WebDriver driver, WebDriverWait driverWait) {
+    public LinkedinHomePage(WebDriver driver, WebDriverWait driverWait) {
         super(driver, driverWait);
         initElements();
     }
@@ -26,7 +26,7 @@ public class ProfilePersonPage extends BasePage{
     public boolean isPageLoaded(){
         String currentURL_Home = "https://www.linkedin.com/feed/";
         String currentTitle_Home = "LinkedIn";
-        return isPageLoaded(currentURL_Home, currentTitle_Home);
+        return isPageLoaded(currentURL_Home, currentTitle_Home, profileNavItem);
     }
 
 
