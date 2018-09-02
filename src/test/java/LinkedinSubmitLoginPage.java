@@ -1,28 +1,31 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LinkedinSubmitLoginPage extends BasePage {
 
+    @FindBy(xpath = "//div[@role = 'alert']")
     private WebElement alertMessage;
+    @FindBy(xpath = "//*[@id=\"session_key-login-error\"]")
     private WebElement errorAnnotationLogin;
+    @FindBy(xpath = "//*[@id=\"session_password-login-error\"]")
     private WebElement errorAnnotationPassword;
+
+
 
     public LinkedinSubmitLoginPage(WebDriver driver, WebDriverWait driverWait) {
         super(driver, driverWait);
-        initElements();
+        PageFactory.initElements(driver, this);
     }
 
-    private void initElements(){
-        alertMessage = driver.findElement(By.xpath("//div[@role = 'alert']"));
-        errorAnnotationLogin = driver.findElement(By.xpath("//*[@id=\"session_key-login-error\"]"));
-        errorAnnotationPassword = driver.findElement(By.xpath("//*[@id=\"session_password-login-error\"]"));
 
-    }
 
-    public boolean isAlertMessageDisplayed(String messText){
+    public boolean isAlertMessageDisplayed(){
         boolean res = false;
+        String messText = "There were one or more errors in your submission. Please correct the marked fields below.";
         String messFromPage = alertMessage.getText();
         if(messFromPage.equals(messText)) res = true;
         return res;

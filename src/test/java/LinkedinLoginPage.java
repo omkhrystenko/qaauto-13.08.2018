@@ -59,11 +59,16 @@ public class LinkedinLoginPage extends BasePage {
         }
     }
 
-    public void sendKeysToLoginField(String text){
+    public void fillLoginPasswordFields(String login, String password){
+        sendKeysToLoginField(login);
+        sendKeysToPasswordField(password);
+    }
+
+    private void sendKeysToLoginField(String text){
         userEmailField.sendKeys(text);
     }
 
-    public void sendKeysToPasswordField(String text){
+    private void sendKeysToPasswordField(String text){
         userPasswordField.sendKeys(text);
     }
 

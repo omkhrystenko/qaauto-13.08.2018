@@ -1,18 +1,17 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LinkedinHomePage extends BasePage{
-    WebElement profileNavItem;
+    @FindBy(xpath = "//li[@id = 'profile-nav-item']")
+    private WebElement profileNavItem;
 
     public LinkedinHomePage(WebDriver driver, WebDriverWait driverWait) {
         super(driver, driverWait);
-        initElements();
-    }
-
-    private void initElements(){
-        profileNavItem = driver.findElement(By.xpath("//li[@id = 'profile-nav-item']"));
+        PageFactory.initElements(driver, this);
     }
 
     public boolean isProfileNavItemDisplayed(){

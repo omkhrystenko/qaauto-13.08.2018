@@ -37,6 +37,29 @@ public class LinkedinLoginTest {
         };
     }
 
+    @DataProvider
+    public Object[][] wrongLoginPassword_SubmitPage() {
+        return new Object[][]{
+                {"a@b.c", "wrong", "Please enter a valid email address.", "The password you provided must have at least 6 characters."},
+                {"trust2018", "autotestqa2018@gmail.com", "Please enter a valid email address.", ""},
+                {"autotestqa2018@gmail.com", "12345", "", "The password you provided must have at least 6 characters."},
+                {"autotestqa2018@gmail.com", "123456", "", "Hmm, that's not the right password. Please try again or request a new one."},
+                {"            @gmail.com", "123456", "Please enter a valid email address.", ""},
+                {"<script>alert(123)</script>", "123456", "Please enter a valid email address.", ""}
+        };
+    }
+
+    @DataProvider
+    public Object[][] wrongLoginPassword_LoginPage() {
+        return new Object[][]{
+                {"", ""},
+                {"        ", "      "},
+                {"", "123456"},
+                {"autotestqa2018@gmail.com", ""},
+
+        };
+    }
+
 
     @Test(dataProvider = "validDataProvider")
     public void successfulLoginTest(String userEmail, String userPassword) {
@@ -61,30 +84,29 @@ public class LinkedinLoginTest {
 
     }
 
-    @Test
-    public void negativeloginTest(){
+    @Test(dataProvider = "wrongLoginPassword_SubmitPage")
+    public void negativeloginTestSubmitPage(String userEmail, String userPassword,
+                                  String emeilErrorMess, String passwordErrorMess){
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
         Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");
 
-        String userEmail = "a@b.c";
-        String userPassword = "wrong";
-
         linkedinLoginPage.login(userEmail, userPassword);
-
         LinkedinSubmitLoginPage linkedinSubmitLoginPage = new LinkedinSubmitLoginPage(driver, driverWait);
         Assert.assertTrue(linkedinSubmitLoginPage.isPageLoaded(), "SubmitLogin page is not loaded");
-        Assert.assertTrue(linkedinSubmitLoginPage.isAlertMessageDisplayed("There were one or more errors in your submission. Please correct the marked fields below."), "Alert message text is wrong or is not displayed");
-
+        Assert.assertTrue(linkedinSubmitLoginPage.isAlertMessageDisplayed(),"Alert message text is wrong or is not displayed");
+        Assert.assertTrue(linkedinSubmitLoginPage.isAlertAnnotationsTextMatches(emeilErrorMess, passwordErrorMess), "Login or Password error annotation is wrong");
     }
 
 
-    @Test
-    public void negativeloginTestEmptyFields(){
+    @Test(dataProvider = "wrongLoginPassword_LoginPage")
+    public void negativeloginTestLoginPage(String login, String password){
 
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
         Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");
 
         Assert.assertTrue(linkedinLoginPage.signInButtonIsDisplayed(), "sign in button is not displayed on login page");
+
+        linkedinLoginPage.fillLoginPasswordFields(login, password);
         linkedinLoginPage.signInButtonClick();
 
         Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page URL or Title doesn't not match");
@@ -92,7 +114,7 @@ public class LinkedinLoginTest {
 
     }
 
-    @Test
+    /*@Test
     public void negativeloginTestFieldsFilledWithBackspace(){
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
         Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");
@@ -104,10 +126,10 @@ public class LinkedinLoginTest {
 
         Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page URL or Title doesn't not match");
         Assert.assertTrue(linkedinLoginPage.isControlElementsDisplayed(), "Controll elements displaying failed");
-    }
+    }*/
 
 
-    @Test
+    /*@Test
     public void negativeloginTestEmptyLoginRightPassword(){
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
         Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");
@@ -148,7 +170,7 @@ public class LinkedinLoginTest {
         LinkedinSubmitLoginPage linkedinSubmitLoginPage = new LinkedinSubmitLoginPage(driver, driverWait);
 
         Assert.assertTrue(linkedinSubmitLoginPage.isPageLoaded(), "SubmitLogin page is not loaded");
-        Assert.assertTrue(linkedinSubmitLoginPage.isAlertMessageDisplayed("There were one or more errors in your submission. Please correct the marked fields below."), "Alert message text is wrong or is not displayed");
+        Assert.assertTrue(linkedinSubmitLoginPage.isAlertMessageDisplayed(), "Alert message text is wrong or is not displayed");
 
         String errorAnnotTextLogin = "Please enter a valid email address.";
         String errorAnnotTextPassword = "";
@@ -222,10 +244,10 @@ public class LinkedinLoginTest {
 
         Assert.assertTrue(linkedinSubmitLoginPage.isAlertAnnotationsTextMatches(errorAnnotTextLogin,errorAnnotTextPassword), "Login or Password error annotation is wrong");
 
-    }
+    }*/
 
 
-    @Test
+   /* @Test
     public void negativeloginTestLoginIsScript_PasswordIsRight(){
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
 
@@ -246,7 +268,7 @@ public class LinkedinLoginTest {
 
         Assert.assertTrue(linkedinSubmitLoginPage.isAlertAnnotationsTextMatches(errorAnnotTextLogin,errorAnnotTextPassword), "Login or Password error annotation is wrong");
 
-    }
+    }*/
 }
 
 
