@@ -111,6 +111,7 @@ public class LinkedinLoginTest {
 
         Assert.assertTrue(linkedinLoginPage.signInButtonIsDisplayed(), "sign in button is not displayed on login page");
 
+
         linkedinLoginPage.fillLoginPasswordFields(login, password);
         linkedinLoginPage.signInButtonClick();
 
