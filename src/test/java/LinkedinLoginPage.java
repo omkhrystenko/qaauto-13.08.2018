@@ -1,4 +1,3 @@
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -7,7 +6,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static java.lang.Thread.sleep;
 
-public class LinkedinLoginPage extends BasePage {
+public class LinkedinLoginPage extends LinkedinBasePage {
 
     @FindBy(xpath = "//input[@id = 'login-email']")
     private WebElement userEmailField;
@@ -19,7 +18,8 @@ public class LinkedinLoginPage extends BasePage {
     private WebElement signInButton;
 
     public LinkedinLoginPage(WebDriver driver, WebDriverWait driverWait) {
-        super(driver, driverWait);
+        this.driver = driver;
+        this.driverWait = driverWait;
         PageFactory.initElements(driver, this); //Можем вычитать из другого класса тогда вместо this ставим LinkedinHomePage.class
     }
 

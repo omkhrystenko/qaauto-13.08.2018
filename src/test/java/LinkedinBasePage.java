@@ -2,14 +2,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class BasePage {
+public class LinkedinBasePage {
     protected WebDriver driver;
     protected WebDriverWait driverWait;
 
-    public BasePage(WebDriver driver, WebDriverWait driverWait) {
+    /*public LinkedinBasePage(WebDriver driver, WebDriverWait driverWait) {
         this.driver = driver;
         this.driverWait = driverWait;
-    }
+    }*/
 
     public String getCurrentURL(){
         return driver.getCurrentUrl();

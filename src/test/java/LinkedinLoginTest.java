@@ -10,6 +10,7 @@ public class LinkedinLoginTest {
     WebDriver driver;
     WebDriverWait driverWait;
     String mainURL;
+    LinkedinLoginPage linkedinLoginPage;
 
     @BeforeClass
     public void setSystemProps(){
@@ -22,6 +23,7 @@ public class LinkedinLoginTest {
         mainURL = "https://www.linkedin.com/";
         driver.get(mainURL);
         driverWait = new WebDriverWait(driver, 10);
+        linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
     }
 
     @AfterMethod
@@ -76,9 +78,7 @@ public class LinkedinLoginTest {
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
         Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");
 
-        linkedinLoginPage.login(userEmail, userPassword);
-
-        LinkedinHomePage linkedinHomePage = new LinkedinHomePage(driver, driverWait);
+        LinkedinHomePage linkedinHomePage = linkedinLoginPage.login(userEmail, userPassword);
         Assert.assertTrue(linkedinHomePage.isPageLoaded(), "Home page is not loaded");
         Assert.assertTrue(linkedinHomePage.isProfileNavItemDisplayed(), "profileNavItem button is not displayed on Home page");
 
@@ -90,11 +90,16 @@ public class LinkedinLoginTest {
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
         Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");
 
-        linkedinLoginPage.login(userEmail, userPassword);
-        LinkedinSubmitLoginPage linkedinSubmitLoginPage = new LinkedinSubmitLoginPage(driver, driverWait);
-        Assert.assertTrue(linkedinSubmitLoginPage.isPageLoaded(), "SubmitLogin page is not loaded");
-        Assert.assertTrue(linkedinSubmitLoginPage.isAlertMessageDisplayed(),"Alert message text is wrong or is not displayed");
-        Assert.assertTrue(linkedinSubmitLoginPage.isAlertAnnotationsTextMatches(emeilErrorMess, passwordErrorMess), "Login or Password error annotation is wrong");
+        LinkedinSubmitLoginPage linkedinSubmitLoginPage = linkedinLoginPage.login(userEmail, userPassword);
+
+        Assert.assertTrue(linkedinSubmitLoginPage.isPageLoaded(), "LoginSubmitPage is not loaded.");
+
+        Assert.assertEquals(linkedinSubmitLoginPage.getAlertMessageText(), "There were one or more errors in your submission. Please correct the marked fields below.",
+                "Alert message is wrong");
+        Assert.assertEquals(linkedinSubmitLoginPage.getUserEmailAlertText(), emeilErrorMess,
+                "userEmail alert text is wrong");
+        Assert.assertEquals(linkedinSubmitLoginPage.getUserPasswordAlertText(), passwordErrorMess,
+                "userPassword alert text is wrong");
     }
 
 
@@ -111,7 +116,6 @@ public class LinkedinLoginTest {
 
         Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page URL or Title doesn't not match");
         Assert.assertTrue(linkedinLoginPage.isControlElementsDisplayed(), "Controll elements displaying failed");
-
     }
 
     /*@Test

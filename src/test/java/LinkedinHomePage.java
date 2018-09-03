@@ -1,16 +1,16 @@
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class LinkedinHomePage extends BasePage{
+public class LinkedinHomePage extends LinkedinBasePage {
     @FindBy(xpath = "//li[@id = 'profile-nav-item']")
     private WebElement profileNavItem;
 
     public LinkedinHomePage(WebDriver driver, WebDriverWait driverWait) {
-        super(driver, driverWait);
+        this.driver = driver;
+        this.driverWait = driverWait;
         PageFactory.initElements(driver, this);
     }
 

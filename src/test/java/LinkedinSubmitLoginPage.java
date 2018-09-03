@@ -1,27 +1,25 @@
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class LinkedinSubmitLoginPage extends BasePage {
+public class LinkedinSubmitLoginPage extends LinkedinBasePage {
 
     @FindBy(xpath = "//div[@role = 'alert']")
     private WebElement alertMessage;
     @FindBy(xpath = "//*[@id=\"session_key-login-error\"]")
-    private WebElement errorAnnotationLogin;
+    private WebElement userEmailAlert;
     @FindBy(xpath = "//*[@id=\"session_password-login-error\"]")
-    private WebElement errorAnnotationPassword;
+    private WebElement userPasswordAlert;
 
 
 
     public LinkedinSubmitLoginPage(WebDriver driver, WebDriverWait driverWait) {
-        super(driver, driverWait);
+        this.driver = driver;
+        this.driverWait = driverWait;
         PageFactory.initElements(driver, this);
     }
-
-
 
     public boolean isAlertMessageDisplayed(){
         boolean res = false;
@@ -33,13 +31,15 @@ public class LinkedinSubmitLoginPage extends BasePage {
 
     public boolean isAlertAnnotationsTextMatches(String loginAnnotation, String passwordAnnotation){
         boolean res = false;
-        String loginAnnText = errorAnnotationLogin.getText();
-        String passwAnnText = errorAnnotationPassword.getText();
+        String loginAnnText = userEmailAlert.getText();
+        String passwAnnText = userPasswordAlert.getText();
         if(loginAnnotation.equals(loginAnnText) && passwAnnText.equals(passwordAnnotation)){
             res = true;
         }
         return res;
     }
+
+
 
     public boolean isPageLoaded(){
         String currentURL_SubmitLogin = "https://www.linkedin.com/uas/login-submit";
@@ -47,5 +47,16 @@ public class LinkedinSubmitLoginPage extends BasePage {
         return isPageLoaded(currentURL_SubmitLogin, currentTitle_SubmitLogin, alertMessage);
     }
 
+    public String getAlertMessageText(){
+        return alertMessage.getText();
+    }
+
+    public String getUserEmailAlertText(){
+        return userEmailAlert.getText();
+    }
+
+    public String getUserPasswordAlertText(){
+        return userPasswordAlert.getText();
+    }
 
 }
