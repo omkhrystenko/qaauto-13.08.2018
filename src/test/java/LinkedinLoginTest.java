@@ -5,31 +5,7 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 
 
-public class LinkedinLoginTest {
-
-    WebDriver driver;
-    WebDriverWait driverWait;
-    String mainURL;
-    LinkedinLoginPage linkedinLoginPage;
-
-    @BeforeClass
-    public void setSystemProps(){
-        System.setProperty("webdriver.chrome.driver", "D:\\WebDrivers\\chromedriver.exe");
-    }
-
-    @BeforeMethod
-    public void beforeMethod(){
-        driver = new ChromeDriver();
-        mainURL = "https://www.linkedin.com/";
-        driver.get(mainURL);
-        driverWait = new WebDriverWait(driver, 10);
-        linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
-    }
-
-    @AfterMethod
-    public void afterMethod(){
-        driver.quit();
-    }
+public class LinkedinLoginTest extends LinkedinBaseTest {
 
     @DataProvider
     public Object[][] validDataProvider() {
@@ -57,11 +33,17 @@ public class LinkedinLoginTest {
                 {"", ""},
                 {"        ", "      "},
                 {"", "123456"},
-                {"autotestqa2018@gmail.com", ""},
+                {"autotestqa2018@gmail.com", ""}
 
         };
     }
 
+    @DataProvider
+    public Object[][] search_HomePage() {
+        return new Object[][]{
+                {"autotestqa2018@gmail.com", "trust2018"}
+        };
+    }
 
     @Test(dataProvider = "validDataProvider")
     public void successfulLoginTest(String userEmail, String userPassword) {
@@ -118,6 +100,9 @@ public class LinkedinLoginTest {
         Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page URL or Title doesn't not match");
         Assert.assertTrue(linkedinLoginPage.isControlElementsDisplayed(), "Controll elements displaying failed");
     }
+
+
+
 
     /*@Test
     public void negativeloginTestFieldsFilledWithBackspace(){
