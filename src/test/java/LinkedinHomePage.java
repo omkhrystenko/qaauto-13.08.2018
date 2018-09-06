@@ -7,7 +7,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class LinkedinHomePage extends LinkedinBasePage {
     @FindBy(xpath = "//li[@id = 'profile-nav-item']")
@@ -86,7 +85,7 @@ public class LinkedinHomePage extends LinkedinBasePage {
 
         for(int i = 0; i < searchResultContainers.size(); i++){
             WebElement container = searchResultContainers.get(i);
-           scrollToElement( container, driver);
+           scrollToElement(container, driver);
 
             String conteinerContent = container.getAttribute("innerHTML");
             if(conteinerContent.contains("class=\"results-list display-flex pb3 ember-view\"")){
