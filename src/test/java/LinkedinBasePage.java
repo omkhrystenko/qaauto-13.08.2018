@@ -6,11 +6,6 @@ public class LinkedinBasePage {
     protected WebDriver driver;
     protected WebDriverWait driverWait;
 
-    /*public LinkedinBasePage(WebDriver driver, WebDriverWait driverWait) {
-        this.driver = driver;
-        this.driverWait = driverWait;
-    }*/
-
     public String getCurrentURL(){
         return driver.getCurrentUrl();
     }
