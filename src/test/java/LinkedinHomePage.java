@@ -8,11 +8,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 public class LinkedinHomePage extends LinkedinBasePage {
     @FindBy(xpath = "//li[@id = 'profile-nav-item']")
     private WebElement profileNavItem;
 
-    @FindBy(xpath = "//*[@id=\"extended-nav-search\"]/descendant :: input")
+    @FindBy(xpath = "//input[@placeholder and @role = 'combobox]'")
     private WebElement searchField;
 
     @FindBy(xpath = "//*[@class=\"search-results-container\"]")
@@ -58,7 +60,7 @@ public class LinkedinHomePage extends LinkedinBasePage {
         searchField.click();
         searchField.sendKeys(requestData + Keys.ENTER);
         try {
-            Thread.sleep(5000);
+            sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -128,9 +130,20 @@ public class LinkedinHomePage extends LinkedinBasePage {
     public void scrollToElement( WebElement element, WebDriver driver) {
         ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(false);", element);
         try {
-            Thread.sleep(300);
+            sleep(300);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+//////////////ДЗ
+    public LinkedinSearchPage search(String searchTerm) {
+        searchField.sendKeys(searchTerm);
+        searchField.sendKeys(Keys.ENTER);
+        try {
+            sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return new LinkedinSearchPage(driver);
     }
 }

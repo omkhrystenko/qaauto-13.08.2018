@@ -1,6 +1,8 @@
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import java.util.List;
+
 
 public class LinkedinLoginTest extends LinkedinBaseTest {
 
@@ -86,6 +88,7 @@ public class LinkedinLoginTest extends LinkedinBaseTest {
         linkedinLoginPage.signInButtonClick();
 
         Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page URL or Title doesn't not match");
+
         Assert.assertTrue(linkedinLoginPage.isControlElementsDisplayed(), "Controll elements displaying failed");
     }
 }

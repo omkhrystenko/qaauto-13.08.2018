@@ -1,6 +1,8 @@
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import java.util.List;
+
 public class LinkedinSearchTest extends LinkedinBaseTest {
 
 
@@ -28,6 +30,29 @@ public class LinkedinSearchTest extends LinkedinBaseTest {
 
         Assert.assertEquals(linkedinHomePage.quantityOfSearchFormAnswers(), resCount, "Quantity of answers on search form is wrong");
         Assert.assertEquals(linkedinHomePage.quantityOfMatchResults(requestData), resCount, "Not all the results coincided");
+    }
+
+    @Test
+    public void basicSearchTest(String userEmail, String userPassword){
+        String searchTerm = "HR";
+
+        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded.");
+
+        LinkedinHomePage linkedinHomePage = linkedinLoginPage.login(userEmail, userPassword);
+        Assert.assertTrue(linkedinHomePage.isPageLoaded(), "Home page is not loaded.");
+
+        LinkedinSearchPage linkedinSearchPage = linkedinHomePage.search(searchTerm);
+        Assert.assertTrue(linkedinSearchPage.isPageLoaded(), "Search page is not loaded.");
+
+        Assert.assertEquals(linkedinSearchPage.getSearchResultsNumber(), 10,
+                "Wrong number of searchResults on Search page.");
+        List<String> searchResultsList = linkedinSearchPage.getSearchResultList();
+
+        for(String searchResult : searchResultsList){
+            Assert.assertTrue(searchResult.toLowerCase().contains(searchTerm.toLowerCase()),
+                    "SearchTerm " + searchTerm + " not found in: \n " + searchResult);
+        }
 
     }
 
