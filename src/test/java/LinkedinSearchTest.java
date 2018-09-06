@@ -5,14 +5,14 @@ public class LinkedinSearchTest extends LinkedinBaseTest {
 
 
     @DataProvider
-    public Object[][] search_HomePage() {
+    public Object[][] searchHomePage() {
         return new Object[][]{
                 {"autotestqa2018@gmail.com", "trust2018", "hr", 10}
         };
     }
 
 
-    @Test(dataProvider = "search_HomePage")
+    @Test(dataProvider = "searchHomePage")
     public void searchTestHomePage(String userEmail, String userPassword, String requestData, int resCount){
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
         Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");

@@ -13,7 +13,7 @@ public class LinkedinLoginTest extends LinkedinBaseTest {
     }
 
     @DataProvider
-    public Object[][] wrongLoginPassword_SubmitPage() {
+    public Object[][] wrongLoginPasswordSubmitPage() {
         return new Object[][]{
                 {"a@b.c", "wrong", "Please enter a valid email address.", "The password you provided must have at least 6 characters."},
                 {"trust2018", "autotestqa2018@gmail.com", "Please enter a valid email address.", ""},
@@ -25,7 +25,7 @@ public class LinkedinLoginTest extends LinkedinBaseTest {
     }
 
     @DataProvider
-    public Object[][] wrongLoginPassword_LoginPage() {
+    public Object[][] wrongLoginPasswordLoginPage() {
         return new Object[][]{
                 {"", ""},
                 {"        ", "      "},
@@ -36,7 +36,7 @@ public class LinkedinLoginTest extends LinkedinBaseTest {
     }
 
     @DataProvider
-    public Object[][] search_HomePage() {
+    public Object[][] searchHomePage() {
         return new Object[][]{
                 {"autotestqa2018@gmail.com", "trust2018"}
         };
@@ -54,7 +54,7 @@ public class LinkedinLoginTest extends LinkedinBaseTest {
 
     }
 
-    @Test(dataProvider = "wrongLoginPassword_SubmitPage")
+    @Test(dataProvider = "wrongLoginPasswordSubmitPage")
     public void negativeloginTestSubmitPage(String userEmail, String userPassword,
                                   String emeilErrorMess, String passwordErrorMess){
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
@@ -73,7 +73,7 @@ public class LinkedinLoginTest extends LinkedinBaseTest {
     }
 
 
-    @Test(dataProvider = "wrongLoginPassword_LoginPage")
+    @Test(dataProvider = "wrongLoginPasswordLoginPage")
     public void negativeloginTestLoginPage(String login, String password){
 
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
