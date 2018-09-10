@@ -17,6 +17,9 @@ public class LinkedinLoginPage extends LinkedinBasePage {
     @FindBy(xpath = "//input[@id = 'login-submit']")
     private WebElement signInButton;
 
+    @FindBy(xpath = "//a[@class='link-forgot-password']")
+    private WebElement forgotPasswordLink;
+
     public LinkedinLoginPage(WebDriver driver, WebDriverWait driverWait) {
         this.driver = driver;
         this.driverWait = driverWait;
@@ -34,10 +37,10 @@ public class LinkedinLoginPage extends LinkedinBasePage {
             e.printStackTrace();
         }
 
-        if(getCurrentURL().contains("/feed")){
+        if(getCurrentUrl().contains("/feed")){
             return (T)new LinkedinHomePage(driver, driverWait);
         }
-        if(getCurrentURL().contains("/login-submit")){
+        if(getCurrentUrl().contains("/login-submit")){
             return (T)new LinkedinSubmitLoginPage(driver, driverWait);
         }else {
             return (T)PageFactory.initElements(driver, LinkedinLoginPage.class); //или Т()this; или(T)PageFactory.initElements(driver, LinkedinLoginPage.class); - эта реализация вернет new LinkedinLoginPage() с проинициализированными полями веб елементов
@@ -85,6 +88,18 @@ public class LinkedinLoginPage extends LinkedinBasePage {
         String currentURL_Login = "https://www.linkedin.com/";
         String currentTitle_Login = "LinkedIn: Log In or Sign Up";
         return isPageLoaded(currentURL_Login, currentTitle_Login, signInButton);
+    }
+
+    public <T> T clickForgotPasswordLink(){
+        forgotPasswordLink.click();
+        try {
+            sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if(getCurrentUrl().contains("/uas/request-password-reset"))
+            return (T) new LinkedinPasswordResetPage(driver);
+        else return (T) this;
     }
 
 

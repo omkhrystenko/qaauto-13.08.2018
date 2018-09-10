@@ -20,7 +20,7 @@ public class LinkedinSearchPage extends LinkedinBasePage{
     }
 
     public boolean isPageLoaded(){
-        return getCurrentURL().contains("search/results")
+        return getCurrentUrl().contains("search/results")
                 && getCurrentTitle().contains("| Search | Linkedin")
                 && searchResultsTotal.isDisplayed();
     }

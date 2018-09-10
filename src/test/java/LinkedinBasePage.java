@@ -6,7 +6,10 @@ public class LinkedinBasePage {
     protected WebDriver driver;
     protected WebDriverWait driverWait;
 
-    public String getCurrentURL(){
+
+
+
+    public String getCurrentUrl(){
         return driver.getCurrentUrl();
     }
 
@@ -15,7 +18,7 @@ public class LinkedinBasePage {
     }
 
     public boolean isPageLoaded(String currentUrl, String currentTitle, WebElement uniqElement){
-        return  getCurrentURL().equals(currentUrl)
+        return  getCurrentUrl().equals(currentUrl)
                 && getCurrentTitle().equals(currentTitle)
                 && uniqElement.isDisplayed();
 
