@@ -1,3 +1,5 @@
+package page;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -23,7 +25,7 @@ public class LinkedinLoginPage extends LinkedinBasePage {
     public LinkedinLoginPage(WebDriver driver, WebDriverWait driverWait) {
         this.driver = driver;
         this.driverWait = driverWait;
-        PageFactory.initElements(driver, this); //Можем вычитать из другого класса тогда вместо this ставим LinkedinHomePage.class
+        PageFactory.initElements(driver, this); //Можем вычитать из другого класса тогда вместо this ставим page.LinkedinHomePage.class
     }
 
 
@@ -43,7 +45,7 @@ public class LinkedinLoginPage extends LinkedinBasePage {
         if(getCurrentUrl().contains("/login-submit")){
             return (T)new LinkedinSubmitLoginPage(driver, driverWait);
         }else {
-            return (T)PageFactory.initElements(driver, LinkedinLoginPage.class); //или Т()this; или(T)PageFactory.initElements(driver, LinkedinLoginPage.class); - эта реализация вернет new LinkedinLoginPage() с проинициализированными полями веб елементов
+            return (T)PageFactory.initElements(driver, LinkedinLoginPage.class); //или Т()this; или(T)PageFactory.initElements(driver, page.LinkedinLoginPage.class); - эта реализация вернет new page.LinkedinLoginPage() с проинициализированными полями веб елементов
         }
 
     }

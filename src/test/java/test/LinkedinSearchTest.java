@@ -1,5 +1,10 @@
+package test;
+
 import org.testng.Assert;
 import org.testng.annotations.*;
+import page.LinkedinHomePage;
+import page.LinkedinLoginPage;
+import page.LinkedinSearchPage;
 
 import java.util.List;
 

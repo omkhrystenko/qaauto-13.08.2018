@@ -1,11 +1,9 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+package test;
+
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import java.util.List;
+import page.*;
 
 import static java.lang.Thread.sleep;
 
@@ -41,6 +39,5 @@ public class LinkedinResetPasswordTest extends LinkedinBaseTest{
         Assert.assertTrue(linkedinPasswordResetSubmitPage.isPageLoaded(),"Password Reset Submit Page is not loaded");
         LinkedinHomePage linkedinHomePage = linkedinPasswordResetSubmitPage.clickGoHomepage();
         Assert.assertTrue(linkedinHomePage.isPageLoaded(), "Home page is not loaded");
-
     }
 }

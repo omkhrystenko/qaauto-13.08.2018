@@ -1,7 +1,10 @@
+package test;
+
 import org.testng.Assert;
 import org.testng.annotations.*;
-
-import java.util.List;
+import page.LinkedinHomePage;
+import page.LinkedinLoginPage;
+import page.LinkedinSubmitLoginPage;
 
 
 public class LinkedinLoginTest extends LinkedinBaseTest {

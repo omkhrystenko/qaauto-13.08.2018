@@ -16,13 +16,18 @@
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.testng/testng -->
-        <!--<dependency>
+        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>6.14.2</version>
+            <version>6.14.3</version>
             <scope>test</scope>
-        </dependency>-->
+        </dependency>
 
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
 
     </dependencies>
 
