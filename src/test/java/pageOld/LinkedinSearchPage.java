@@ -1,11 +1,10 @@
-package page;
+package pageOld;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import pageOld.LinkedinBasePage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,7 @@ public class LinkedinSearchPage extends LinkedinBasePage{
         return searchResults.size();
     }
 
-    public List<String> getSearchResultsList(){
+    public List<String> getSearchResultList(){
         List<String> searchResultList = new ArrayList<String>();
         for(WebElement searchResult : searchResults){
             ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(false);", searchResults);

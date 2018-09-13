@@ -5,8 +5,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pageOld.LinkedinBasePage;
 
-public class LinkedinSubmitLoginPage extends LinkedinBasePage {
+public class LinkedinLoginSubmitPage extends LinkedinBasePage {
 
     @FindBy(xpath = "//div[@role = 'alert']")
     private WebElement alertMessage;
@@ -17,7 +18,7 @@ public class LinkedinSubmitLoginPage extends LinkedinBasePage {
 
 
 
-    public LinkedinSubmitLoginPage(WebDriver driver, WebDriverWait driverWait) {
+    public LinkedinLoginSubmitPage(WebDriver driver, WebDriverWait driverWait) {
         this.driver = driver;
         this.driverWait = driverWait;
         PageFactory.initElements(driver, this);

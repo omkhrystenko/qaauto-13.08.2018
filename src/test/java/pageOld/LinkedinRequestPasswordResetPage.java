@@ -1,4 +1,4 @@
-package page;
+package pageOld;
 
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -9,18 +9,18 @@ import util.GMailService;
 
 import static java.lang.Thread.sleep;
 
-public class LinkedinPasswordResetPage extends LinkedinBasePage {
+public class LinkedinRequestPasswordResetPage extends LinkedinBasePage {
 
     @FindBy(xpath="//header[@class='content__header' and contains(text(),\"First, let's find your account\")]")
     private WebElement contentHeaderText;
 
     @FindBy(xpath="//input[@name='userName']")
-    private WebElement userNameField;
+    private WebElement userEmailField;
 
     @FindBy(xpath="//button[@id='reset-password-submit-button']")
     private WebElement findAccountButton;
 
-    public LinkedinPasswordResetPage (WebDriver driver) {
+    public LinkedinRequestPasswordResetPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
@@ -32,10 +32,10 @@ public class LinkedinPasswordResetPage extends LinkedinBasePage {
     }
 
     public void enterUserEmail(String email){
-        userNameField.sendKeys(email+ Keys.TAB);
+        userEmailField.sendKeys(email+ Keys.TAB);
     }
 
-    public <T> T clickFindAccount(){
+    public <T> T findAccount(){
         GMailService gMailService = new GMailService();
         gMailService.connect();
 

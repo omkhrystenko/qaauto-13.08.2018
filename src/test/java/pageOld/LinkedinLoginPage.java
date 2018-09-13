@@ -1,14 +1,11 @@
-package page;
+package pageOld;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pageOld.LinkedinBasePage;
-import pageOld.LinkedinHomePage;
-import pageOld.LinkedinRequestPasswordResetPage;
-import pageOld.LinkedinSubmitLoginPage;
+import page.LinkedinRequestPasswordResetPage;
 
 import static java.lang.Thread.sleep;
 

@@ -1,8 +1,7 @@
-package test;
+package testOld;
 
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pageOld.LinkedinHomePage;
 import pageOld.LinkedinLoginPage;
 import pageOld.LinkedinSubmitLoginPage;

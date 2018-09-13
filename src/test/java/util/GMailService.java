@@ -13,8 +13,8 @@ import java.util.concurrent.Executors;
 
 public class GMailService {
     String host = "imap.gmail.com";
-    String user;
-    String pass;
+   public String user;
+   public String pass;
 
     private volatile boolean isMessageReceived;
     private volatile String messageString;
@@ -27,9 +27,9 @@ public class GMailService {
      * @param args - dummy args for main()
      */
     public static void main(String[] args) {
-        String messageSubject = "Lesson 10";
-        String messageTo = "postoltest@gmail.com";
-        String messageFrom = "mykola.gladchenko@gmail.com";
+        String messageSubject = "autotestqa, here's the link to reset your password";
+        String messageTo = "autotestqa2018@gmail.com";
+        String messageFrom = "security-noreply@linkedin.com";
 
         GMailService gMailService = new GMailService();
         gMailService.connect();
