@@ -5,13 +5,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pageOld.LinkedinBasePage;
-import pageOld.LinkedinHomePage;
-import pageOld.LinkedinRequestPasswordResetPage;
 import pageOld.LinkedinSubmitLoginPage;
+import util.GMailService;
+
 
 import static java.lang.Thread.sleep;
 
+/**
+ * LinkedinLoginPage Object class.
+ */
 public class LinkedinLoginPage extends LinkedinBasePage {
 
     @FindBy(xpath = "//input[@id = 'login-email']")
@@ -26,6 +28,12 @@ public class LinkedinLoginPage extends LinkedinBasePage {
     @FindBy(xpath = "//a[@class='link-forgot-password']")
     private WebElement forgotPasswordLink;
 
+    /**
+     * Constructor for LinkedinLoginPage.
+     *
+     * @param driver - driver instance from test.
+     * @param driverWait
+     */
     public LinkedinLoginPage(WebDriver driver, WebDriverWait driverWait) {
         this.driver = driver;
         this.driverWait = driverWait;
@@ -33,6 +41,14 @@ public class LinkedinLoginPage extends LinkedinBasePage {
     }
 
 
+    /**
+     * User login by username/password.
+     *
+     * @param userEmail - String with userEmail.
+     * @param userPassword - String userPassword.
+     * @param <T> - generic type to return different PegeObjects.
+     * @return one of corresponding PageObjects LinkedinLoginPage/LinkedinHomePage/LinkedinLoginSubmitPage
+     */
     public <T> T login(String userEmail, String userPassword){
         userEmailField.sendKeys(userEmail);
         userPasswordField.sendKeys(userPassword);
@@ -44,7 +60,7 @@ public class LinkedinLoginPage extends LinkedinBasePage {
         }
 
         if(getCurrentUrl().contains("/feed")){
-            return (T)new LinkedinHomePage(driver, driverWait);
+            return (T)new LinkedinHomePage(driver);
         }
         if(getCurrentUrl().contains("/login-submit")){
             return (T)new LinkedinSubmitLoginPage(driver, driverWait);

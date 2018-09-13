@@ -25,7 +25,6 @@ public class LinkedinRequestPasswordResetPage extends LinkedinBasePage {
     }
 
     public LinkedinPasswordResetSubmitPage findAccount(String userEmail) {
-        System.out.println(gMailService);
         gMailService.connect();
 
         userEmailField.sendKeys(userEmail);

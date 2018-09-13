@@ -2,29 +2,35 @@ package page;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import util.GMailService;
 
 public class LinkedinBasePage {
     protected WebDriver driver;
     protected WebDriverWait driverWait;
-    GMailService gMailService = new GMailService();
+    protected static GMailService gMailService = new GMailService();
 
 
 
 
-    public String getCurrentUrl(){
+    protected String getCurrentUrl(){
         return driver.getCurrentUrl();
     }
 
-    public String getCurrentTitle(){
+    protected String getCurrentTitle(){
         return driver.getTitle();
     }
 
-    public boolean isPageLoaded(String currentUrl, String currentTitle, WebElement uniqElement){
+    protected boolean isPageLoaded(String currentUrl, String currentTitle, WebElement uniqElement){
         return  getCurrentUrl().equals(currentUrl)
                 && getCurrentTitle().equals(currentTitle)
                 && uniqElement.isDisplayed();
 
+    }
+
+    protected WebElement waitUntilElementVisible(WebElement webElement, int timeOutInSec){
+        WebDriverWait wait = new WebDriverWait(driver, timeOutInSec);
+        return wait.until(ExpectedConditions.visibilityOf(webElement));
     }
 }

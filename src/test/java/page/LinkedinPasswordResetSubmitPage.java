@@ -1,4 +1,5 @@
 package page;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -27,29 +28,18 @@ public class LinkedinPasswordResetSubmitPage extends LinkedinBasePage {
     }
 
     public LinkedinSetNewPasswordPage navigateToLinkFromEmail() {
-        System.out.println(gMailService.user);
-        System.out.println(gMailService.pass);
         String messageSubject = "here's the link to reset your password";
         String messageTo = "autotestqa2018@gmail.com";
         String messageFrom = "security-noreply@linkedin.com";
         String message = gMailService.waitMessage(messageSubject, messageTo, messageFrom, 180);
-        System.out.println(message);
-        String overloadPassword = hanleGMailServiceResponce(message);
-        System.out.println(overloadPassword);
-        driver.get(overloadPassword);
+        System.out.println("Content: " + message);
+        String resetPasswordLink =
+            StringUtils.substringBetween(message, "To change your LinkedIn password, click <a href=\"",
+                "\" style").replace("&amp;", "");
+        System.out.println(resetPasswordLink);
+        driver.get(resetPasswordLink);
 
         return new LinkedinSetNewPasswordPage(driver);
     }
 
-    private String hanleGMailServiceResponce(String response){
-        String res = "";
-        StringBuilder stringBuilder = new StringBuilder(response);
-        int linkNameStart = stringBuilder.indexOf("To change your LinkedIn password, click <a href=\"");
-        int linkStart = stringBuilder.indexOf("https", linkNameStart);
-        int linkEnd = stringBuilder.indexOf("\" style", linkStart);
-        res = stringBuilder.substring(linkStart, linkEnd);
-        res = res.replace("&amp;", "&");
-
-        return res;
-    }
 }

@@ -6,7 +6,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import pageOld.LinkedinLoginPage;
+import page.LinkedinLoginPage;
+import util.GMailService;
 
 public class LinkedinBaseTest {
     WebDriver driver;
@@ -14,18 +15,21 @@ public class LinkedinBaseTest {
     String mainURL;
     LinkedinLoginPage linkedinLoginPage;
 
-    @BeforeClass
-    public void setSystemProps(){
-        System.setProperty("webdriver.chrome.driver", "D:\\WebDrivers\\chromedriver.exe");
-    }
 
-    @BeforeMethod
-    public void beforeMethod(){
-        driver = new ChromeDriver();
-        mainURL = "https://www.linkedin.com/";
-        driver.get(mainURL);
-        driverWait = new WebDriverWait(driver, 10);
+        @BeforeClass
+        public void setSystemProps(){
+            System.setProperty("webdriver.chrome.driver", "D:\\WebDrivers\\chromedriver.exe");
+        }
+
+        @BeforeMethod
+        public void beforeMethod(){
+            driver = new ChromeDriver();
+            mainURL = "https://www.linkedin.com/";
+            driver.get(mainURL);
+            driverWait = new WebDriverWait(driver, 10);
+
         linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
+
     }
 
     @AfterMethod
