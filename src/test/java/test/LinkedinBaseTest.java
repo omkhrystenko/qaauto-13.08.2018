@@ -9,6 +9,10 @@ import org.testng.annotations.BeforeMethod;
 import page.LinkedinLoginPage;
 import util.GMailService;
 
+
+/**
+ *Common class for test group classes.
+ */
 public class LinkedinBaseTest {
     WebDriver driver;
     WebDriverWait driverWait;
@@ -16,11 +20,17 @@ public class LinkedinBaseTest {
     LinkedinLoginPage linkedinLoginPage;
 
 
+    /**
+     * Initiate system properties before test class run.
+     */
         @BeforeClass
         public void setSystemProps(){
             System.setProperty("webdriver.chrome.driver", "D:\\WebDrivers\\chromedriver.exe");
         }
 
+    /**
+     * Make preconditions before each method run.
+     */
         @BeforeMethod
         public void beforeMethod(){
             driver = new ChromeDriver();
@@ -28,10 +38,13 @@ public class LinkedinBaseTest {
             driver.get(mainURL);
             driverWait = new WebDriverWait(driver, 10);
 
-        linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
+        linkedinLoginPage = new LinkedinLoginPage(driver);
 
     }
 
+    /**
+     * Make postconditions after each method.
+     */
     @AfterMethod
     public void afterMethod(){
        driver.quit();

@@ -5,18 +5,29 @@ import page.LinkedinHomePage;
 import page.LinkedinSearchPage;
 
 import java.util.List;
-
+/**
+ * LinkedinSearchTest Object class.
+ */
 public class LinkedinSearchTest extends LinkedinBaseTest {
 
 
-    /*- Open login page
-    - Verify login page is loaded
-    - Login with valid credentials
-    - Verify home page is loaded
-    - Search for 'hr' Searchterm
-    - Verify Search page is loaded
-    - Verify 10 results displayed on search page
-    - Verify each result item contains searchTerm*/
+    /**
+     * Verify the displaying of the search result
+     *
+     * Preconditions
+     * - Open new browser.
+     * - Navigate to linkedin.com
+     *
+     * Scenario
+     * - Open login page
+     * - Verify login page is loaded
+     * - Login with valid credentials
+     * - Verify home page is loaded
+     * - Search for 'hr' Searchterm
+     * - Verify Search page is loaded
+     * - Verify 10 results displayed on search page
+     * - Verify each result item contains searchTerm
+     */
     @Test
     public void basicSearchTest() {
         String userEmail = "linkedin.tst.yanina@gmail.com";
@@ -41,21 +52,6 @@ public class LinkedinSearchTest extends LinkedinBaseTest {
             Assert.assertTrue(searchResult.toLowerCase().contains(searchTerm.toLowerCase()),
                     "SearchTerm "+searchTerm+" not found in:\n"+searchResult);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
 }

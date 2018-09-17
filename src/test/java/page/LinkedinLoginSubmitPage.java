@@ -5,8 +5,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pageOld.LinkedinBasePage;
 
+
+/**
+ *  LinkedinSubmitPage Object class.
+ */
 public class LinkedinLoginSubmitPage extends LinkedinBasePage {
 
     @FindBy(xpath = "//div[@role = 'alert']")
@@ -17,47 +20,50 @@ public class LinkedinLoginSubmitPage extends LinkedinBasePage {
     private WebElement userPasswordAlert;
 
 
-
-    public LinkedinLoginSubmitPage(WebDriver driver, WebDriverWait driverWait) {
+    /**
+     * Constructor for LinkedinHomePage.
+     *
+     * @param driver - driver instance from test.
+     */
+    public LinkedinLoginSubmitPage(WebDriver driver) {
         this.driver = driver;
-        this.driverWait = driverWait;
         PageFactory.initElements(driver, this);
+        waitUntilElementVisible(alertMessage, 10);
     }
 
-    public boolean isAlertMessageDisplayed(){
-        boolean res = false;
-        String messText = "There were one or more errors in your submission. Please correct the marked fields below.";
-        String messFromPage = alertMessage.getText();
-        if(messFromPage.equals(messText)) res = true;
-        return res;
-    }
-
-    public boolean isAlertAnnotationsTextMatches(String loginAnnotation, String passwordAnnotation){
-        boolean res = false;
-        String loginAnnText = userEmailAlert.getText();
-        String passwAnnText = userPasswordAlert.getText();
-        if(loginAnnotation.equals(loginAnnText) && passwAnnText.equals(passwordAnnotation)){
-            res = true;
-        }
-        return res;
-    }
-
-
-
+    /**
+     * Check is page loaded up on to controll parameters.
+     */
     public boolean isPageLoaded(){
+        waitUntilElementVisible(alertMessage, 10);
         String currentURL_SubmitLogin = "https://www.linkedin.com/uas/login-submit";
         String currentTitle_SubmitLogin = "Sign In to LinkedIn";
         return isPageLoaded(currentURL_SubmitLogin, currentTitle_SubmitLogin, alertMessage);
     }
 
+    /**
+     * Get alert message content.
+     *
+     * @return alert message content.
+     */
     public String getAlertMessageText(){
         return alertMessage.getText();
     }
 
+    /**
+     * Get user email alert text.
+     *
+     * @return email alert text.
+     */
     public String getUserEmailAlertText(){
         return userEmailAlert.getText();
     }
 
+    /**
+     * Get user password alert text.
+     *
+     * @return password alert text.
+     */
     public String getUserPasswordAlertText(){
         return userPasswordAlert.getText();
     }

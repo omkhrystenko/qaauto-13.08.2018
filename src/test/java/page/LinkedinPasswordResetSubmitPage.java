@@ -6,16 +6,28 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import static java.lang.Thread.sleep;
-
+/**
+ * LinkedinPasswordResetSubmitPage Object class.
+ */
 public class LinkedinPasswordResetSubmitPage extends LinkedinBasePage {
     @FindBy(xpath = "//button[@id='resend-url']")
     private WebElement resendLinkButton;
 
+    /**
+     * Constructor for LinkedinPasswordResetSubmitPage.
+     *
+     * @param driver - driver instance from test.
+     */
     public LinkedinPasswordResetSubmitPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
+        waitUntilElementVisible(resendLinkButton, 10);
     }
-
+    /**
+     * Check is page loaded up on to controll parameters.
+     *
+     * @return result of loading.
+     */
     public boolean isLoaded() {
         try {
             sleep(5000);
@@ -27,6 +39,11 @@ public class LinkedinPasswordResetSubmitPage extends LinkedinBasePage {
                 && getCurrentUrl().contains("request-password-reset-submit");
     }
 
+    /**
+     * Get and activate change password link from email.
+     *
+     * @return page that follows email link sending.
+     */
     public LinkedinSetNewPasswordPage navigateToLinkFromEmail() {
         String messageSubject = "here's the link to reset your password";
         String messageTo = "autotestqa2018@gmail.com";

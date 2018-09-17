@@ -3,11 +3,13 @@ package test;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import pageOld.LinkedinHomePage;
-import pageOld.LinkedinLoginPage;
-import pageOld.LinkedinSubmitLoginPage;
+import page.LinkedinHomePage;
+import page.LinkedinLoginPage;
+import page.LinkedinLoginSubmitPage;
 
-
+/**
+ * LinkedinLoginTest Object class.
+ */
 public class LinkedinLoginTest extends LinkedinBaseTest {
 
     @DataProvider
@@ -65,7 +67,7 @@ public class LinkedinLoginTest extends LinkedinBaseTest {
     @Test(dataProvider = "validDataProvider")
     public void successfulLoginTest(String userEmail, String userPassword) {
 
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
+        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver);
         Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login pageOld is not loaded");
 
         LinkedinHomePage linkedinHomePage = linkedinLoginPage.login(userEmail, userPassword);
@@ -74,13 +76,29 @@ public class LinkedinLoginTest extends LinkedinBaseTest {
 
     }
 
+
+    /**
+     * Verify negative cases that switch to CheckSubmit page
+     *
+     * Preconditions
+     * - Open new browser.
+     * - Navigate to linkedin.com
+     *
+     * Scenario
+     * - Verify that login page is loaded.
+     * - Enter userEmail.
+     * - Enter userPassword.
+     * - Click on 'Sign in' button.
+     * - Verify  CheckSubmit page is loaded.
+     * - Verify Alert messages is right
+     */
     @Test(dataProvider = "wrongLoginPasswordSubmitPage")
     public void negativeloginTestSubmitPage(String userEmail, String userPassword,
                                   String emeilErrorMess, String passwordErrorMess){
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
+        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver);
         Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login pageOld is not loaded");
 
-        LinkedinSubmitLoginPage linkedinSubmitLoginPage = linkedinLoginPage.login(userEmail, userPassword);
+        LinkedinLoginSubmitPage linkedinSubmitLoginPage = linkedinLoginPage.login(userEmail, userPassword);
 
         Assert.assertTrue(linkedinSubmitLoginPage.isPageLoaded(), "LoginSubmitPage is not loaded.");
 
@@ -93,10 +111,25 @@ public class LinkedinLoginTest extends LinkedinBaseTest {
     }
 
 
+
+    /**
+     * Verify negative cases that doesn't switch to home page
+     *
+     * Preconditions
+     * - Open new browser.
+     * - Navigate to linkedin.com
+     *
+     * Scenario
+     * - Verify that login page is loaded.
+     * - Enter userEmail.
+     * - Enter userPassword.
+     * - Click on 'Sign in' button.
+     * - Verify Home page is not loaded.
+     */
     @Test(dataProvider = "wrongLoginPasswordLoginPage")
     public void negativeloginTestLoginPage(String login, String password){
 
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver, driverWait);
+        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(driver);
         Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login pageOld is not loaded");
 
         Assert.assertTrue(linkedinLoginPage.signInButtonIsDisplayed(), "sign in button is not displayed on login pageOld");

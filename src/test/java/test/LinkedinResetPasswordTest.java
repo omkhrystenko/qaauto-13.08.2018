@@ -8,9 +8,9 @@ import page.LinkedinSuccessfulPasswordResetPage;
 import page.LinkedinHomePage;
 import page.LinkedinPasswordResetSubmitPage;
 import page.LinkedinRequestPasswordResetPage;
-
-import static java.lang.Thread.sleep;
-
+/**
+ * LinkedinResetPasswordTest Object class.
+ */
 public class LinkedinResetPasswordTest extends LinkedinBaseTest {
 
     @DataProvider
@@ -19,7 +19,27 @@ public class LinkedinResetPasswordTest extends LinkedinBaseTest {
                 {"TORYV@1t12"}
         };
     }
-
+    /**
+     * Verify changing user Login
+     *
+     * Preconditions
+     * - Open new browser.
+     * - Navigate to linkedin.com
+     *
+     * Scenario
+     * - Verify that login page is loaded.
+     * - Click on Forgot Password Link
+     * - Verify that Request Password Reset Page is loaded
+     * - Input Email
+     * - Connect mail service
+     * - Get control link from email and activate it
+     * - Get login page
+     * - Verify that login page is loaded.
+     * - Enter userEmail.
+     * - Enter userPassword.
+     * - Click on 'Sign in' button.
+     * - Verify Home page is loaded.
+     */
     @Test(dataProvider = "changingPassword")
     public void successfulResetPasswordTest(String newPassword) throws InterruptedException {
         Assert.assertTrue(linkedinLoginPage.isPageLoaded(),

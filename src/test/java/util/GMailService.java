@@ -11,6 +11,9 @@ import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Email service class
+ */
 public class GMailService {
     String host = "imap.gmail.com";
    public String user;
@@ -55,6 +58,9 @@ public class GMailService {
         this.pass = pass;
     }
 
+    /**
+     * Conection to email service
+     */
     public synchronized void connect() {
         Properties properties = new Properties();
         properties.put("mail.imap.usesocketchannels", "true");
