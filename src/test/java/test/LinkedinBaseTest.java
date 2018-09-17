@@ -1,7 +1,9 @@
 package test;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -33,7 +35,8 @@ public class LinkedinBaseTest {
      */
         @BeforeMethod
         public void beforeMethod(){
-            driver = new ChromeDriver();
+            WebDriverManager.firefoxdriver().setup();
+            driver = new FirefoxDriver();
             mainURL = "https://www.linkedin.com/";
             driver.get(mainURL);
             driverWait = new WebDriverWait(driver, 10);
@@ -45,7 +48,7 @@ public class LinkedinBaseTest {
     /**
      * Make postconditions after each method.
      */
-    @AfterMethod
+    @AfterMethod(alwaysRun = true) //параметр (alwaysRun = true) позволяет отработатся афтер даже после выброса Exception
     public void afterMethod(){
        driver.quit();
     }
