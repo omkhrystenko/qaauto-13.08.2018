@@ -31,6 +31,7 @@ public class LinkedinRequestPasswordResetPage extends LinkedinBasePage {
      * @return result of loading.
      */
     public boolean isLoaded() {
+        waitUntilElementVisible(findAccountButton, 10);
         return findAccountButton.isDisplayed()
                 && getCurrentTitle().equals("Reset Password | LinkedIn")
                 && getCurrentUrl().contains("uas/request-password-reset");

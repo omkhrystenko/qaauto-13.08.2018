@@ -29,11 +29,7 @@ public class LinkedinPasswordResetSubmitPage extends LinkedinBasePage {
      * @return result of loading.
      */
     public boolean isLoaded() {
-        try {
-            sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        waitUntilElementVisible(resendLinkButton, 10);
         return resendLinkButton.isDisplayed()
                 && getCurrentTitle().contains("Please check your mail for reset password link.")
                 && getCurrentUrl().contains("request-password-reset-submit");

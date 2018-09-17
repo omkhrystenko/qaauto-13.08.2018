@@ -11,7 +11,6 @@ import util.GMailService;
  */
 public class LinkedinBasePage {
     protected WebDriver driver;
-    protected WebDriverWait driverWait;
     protected static GMailService gMailService = new GMailService();
 
 

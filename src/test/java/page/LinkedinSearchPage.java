@@ -36,6 +36,7 @@ public class LinkedinSearchPage extends LinkedinBasePage{
      * @return result of loading.
      */
     public boolean isPageLoaded(){
+        waitUntilElementVisible(searchResultsTotal, 10);
         return getCurrentUrl().contains("search/results")
                 && getCurrentTitle().contains("| Search | Linkedin")
                 && searchResultsTotal.isDisplayed();

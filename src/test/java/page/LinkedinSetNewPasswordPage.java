@@ -47,6 +47,7 @@ public class LinkedinSetNewPasswordPage extends LinkedinBasePage {
      * @return result of loading.
      */
     public boolean isLoaded() {
+        waitUntilElementVisible(newPasswordField, 10);
         return newPasswordField.isDisplayed();
     }
 }

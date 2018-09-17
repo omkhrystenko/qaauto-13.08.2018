@@ -35,6 +35,7 @@ public class LinkedinSuccessfulPasswordResetPage extends LinkedinBasePage {
      * @return result of loading.
      */
     public boolean isLoaded() {
+        waitUntilElementVisible(goToHomepageButton, 10);
         return goToHomepageButton.isDisplayed();
     }
 }
