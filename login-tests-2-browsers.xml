@@ -1,0 +1,21 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<!-- XML который запускает тесты сразу в не скольких браузерах-->
+<suite name="Login Test Suite" verbose="1" >
+
+
+    <test name="FireFox" >
+        <parameter name="browserName" value="Firefox"/>
+        <classes>
+            <class name="test.LinkedinLoginTest">
+            </class>
+        </classes>
+    </test>
+
+    <test name="Chrome">
+        <parameter name="browserName" value="Chrome"/>
+        <classes>
+            <class name="test.LinkedinLoginTest">
+            </class>
+        </classes>
+    </test>
+</suite>
