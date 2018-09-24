@@ -1,10 +1,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <!-- XML который запускает тесты сразу в не скольких браузерах-->
-<suite name="Login Test Suite" verbose="1" >
+<suite name="Login Test Suite" verbose="1" parallel="tests" > <!-- значение false отключает паралельное выполнение тестов-->
 
 
     <test name="FireFox" >
         <parameter name="browserName" value="Firefox"/>
+        <parameter name="envURL" value="ua"/>
         <classes>
             <class name="test.LinkedinLoginTest">
             </class>
@@ -13,6 +14,7 @@
 
     <test name="Chrome">
         <parameter name="browserName" value="Chrome"/>
+        <parameter name="envURL" value="ua"/>
         <classes>
             <class name="test.LinkedinLoginTest">
             </class>

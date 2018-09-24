@@ -16,7 +16,7 @@ import page.LinkedinLoginPage;
 public class LinkedinBaseTest {
     WebDriver driver;
     WebDriverWait driverWait;
-    String mainURL;
+
     LinkedinLoginPage linkedinLoginPage;
 
     String browserName = "chrome";
@@ -34,9 +34,10 @@ public class LinkedinBaseTest {
     /**
      * Make preconditions before each method run.
      */
-        @Parameters("browserName")//позволяет подключить XML к методу или к тексту
+        @Parameters({"browserName", "envURL"})//позволяет подключить XML к методу или к тексту
         @BeforeMethod
-        public void beforeMethod(@Optional("chrome") String browserName) throws Exception {//Аннотация @Optional позволяет запускать тесты как с ХМL так и с Идеи так как в случае отсутсвия параметра используется опшионал
+        public void beforeMethod(@Optional("chrome") String browserName, @Optional("ua") String envURL) throws Exception {//Аннотация @Optional позволяет запускать тесты как с ХМL так и с Идеи так как в случае отсутсвия параметра используется опшионал
+
             switch(browserName.toLowerCase()){
                 case "chrome":
                     WebDriverManager.chromedriver().setup();
@@ -53,15 +54,24 @@ public class LinkedinBaseTest {
                 default:
                     throw new Exception("Browser " + browserName + " is not supported.");
             }
+            String mainURL;
+            switch(envURL.toLowerCase()){
+                case "ua":
+                   mainURL = "https://www.linkedin.com/";
+                    break;
+                case "ru":
+                    mainURL = "https://www.ru.linkedin.com/";
+                    break;
+                case "de":
+                    mainURL = "https://www.de.linkedin.com/";
+                    break;
+                default:
+                    throw new Exception("envURL " + envURL + " is not supported.");
+            }
 
-
-            WebDriverManager.firefoxdriver().setup();
-            //driver = new FirefoxDriver();
-            mainURL = "https://www.linkedin.com/";
             driver.get(mainURL);
             driverWait = new WebDriverWait(driver, 10);
-
-        linkedinLoginPage = new LinkedinLoginPage(driver);
+            linkedinLoginPage = new LinkedinLoginPage(driver);
 
     }
 
