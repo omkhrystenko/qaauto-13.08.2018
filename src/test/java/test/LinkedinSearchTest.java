@@ -1,4 +1,6 @@
 package test;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import page.LinkedinHomePage;
@@ -8,6 +10,9 @@ import java.util.List;
 /**
  * LinkedinSearchTest Object class.
  */
+
+@Feature(value = "Search")
+@Story(value = "Item search")
 public class LinkedinSearchTest extends LinkedinBaseTest {
 
 

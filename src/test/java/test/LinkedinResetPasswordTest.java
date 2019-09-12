@@ -1,5 +1,7 @@
 package test;
 
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -11,6 +13,8 @@ import page.LinkedinRequestPasswordResetPage;
 /**
  * LinkedinResetPasswordTest Object class.
  */
+@Feature(value = "Auth")
+@Story(value = "Reset password")
 public class LinkedinResetPasswordTest extends LinkedinBaseTest {
 
     @DataProvider

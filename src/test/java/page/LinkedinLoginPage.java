@@ -1,5 +1,6 @@
 package page;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -24,6 +25,9 @@ public class LinkedinLoginPage extends LinkedinBasePage {
     @FindBy(xpath = "//input[@id = 'login-submit']")
     private WebElement signInButton;
 
+    @FindBy(xpath="/html/body/nav/a[3]")
+    private WebElement controllElementRepairIt;
+
     @FindBy(xpath = "//a[@class='link-forgot-password']")
     private WebElement forgotPasswordLink;
 
@@ -35,7 +39,8 @@ public class LinkedinLoginPage extends LinkedinBasePage {
     public LinkedinLoginPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this); //Можем вычитать из другого класса тогда вместо this ставим pageOld.LinkedinHomePage.class
-        assertElementsIsVisible(signInButton, 10, "Login page is not loaded");
+        assertElementsIsVisible(controllElementRepairIt, 10, "Login page is not loaded");
+        //assertElementsIsVisible(signInButton, 10, "Login page is not loaded");
     }
 
 
@@ -47,6 +52,7 @@ public class LinkedinLoginPage extends LinkedinBasePage {
      * @param <T> - generic type to return different PegeObjects.
      * @return one of corresponding PageObjects LinkedinLoginPage/LinkedinHomePage/LinkedinLoginSubmitPage
      */
+    @Step(value = "Login as user {0} with passport {1}")
     public <T> T login(String userEmail, String userPassword){
         userEmailField.sendKeys(userEmail);
         userPasswordField.sendKeys(userPassword);
@@ -68,6 +74,7 @@ public class LinkedinLoginPage extends LinkedinBasePage {
      *
      * @return result of verifying.
      */
+    @Step
     public boolean signInButtonIsDisplayed(){
         return signInButton.isDisplayed();
     }
@@ -76,6 +83,7 @@ public class LinkedinLoginPage extends LinkedinBasePage {
     /**
      *User login/password submition.
      */
+    @Step
     public void signInButtonClick(){
             signInButton.click();
     }
@@ -86,6 +94,7 @@ public class LinkedinLoginPage extends LinkedinBasePage {
      * @param login - User login.
      * @param password - User password.
      */
+    @Step
     public void fillLoginPasswordFields(String login, String password){
         sendKeysToLoginField(login);
         sendKeysToPasswordField(password);
@@ -96,6 +105,7 @@ public class LinkedinLoginPage extends LinkedinBasePage {
      *
      * @param text - User login.
      */
+    @Step
     private void sendKeysToLoginField(String text){
         userEmailField.sendKeys(text);
     }
@@ -105,6 +115,7 @@ public class LinkedinLoginPage extends LinkedinBasePage {
      *
      * @param text - User password.
      */
+    @Step
     private void sendKeysToPasswordField(String text){
         userPasswordField.sendKeys(text);
     }
@@ -115,6 +126,7 @@ public class LinkedinLoginPage extends LinkedinBasePage {
      *
      * @return result of avaliability controll fields on the page.
      */
+    @Step
     public boolean isControlElementsDisplayed(){
         waitUntilElementVisible(signInButton, 10);
         return userEmailField.isDisplayed() &&
@@ -128,6 +140,7 @@ public class LinkedinLoginPage extends LinkedinBasePage {
      *
      * @return result of loading.
      */
+    @Step
     public boolean isPageLoaded(){
         String currentURL_Login = "https://www.linkedin.com/";
         String currentTitle_Login = "LinkedIn: Log In or Sign Up";
@@ -140,6 +153,7 @@ public class LinkedinLoginPage extends LinkedinBasePage {
      *
      * @return  - generic type to return different PegeObjects.
      */
+    @Step
     public <T> T clickOnForgotPasswordLink(){
         forgotPasswordLink.click();
         if(getCurrentUrl().contains("/uas/request-password-reset"))
